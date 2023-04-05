@@ -163,7 +163,7 @@ function ClientReview() {
               <img
                 src={image[index]}
                 alt="user"
-                className={`cursor-pointer transition duration-200 ease-in-out transform hover:scale-110  rounded-full
+                className={`cursor-pointer transition duration-200 ease-in-out transform hover:scale-x-105  rounded-full
                  h-${isActive === index ? "16" : "12"} 
                  w-${isActive === index ? "16" : "12"}  
   

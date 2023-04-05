@@ -9,7 +9,7 @@ import tw from "twin.macro";
 
 const InputWrapper = styled.div`
   ${tw`
-  mb-6
+  mb-3 md:mb-6 mt-2 lg:mt-0
 `}
 `;
 
@@ -106,9 +106,9 @@ function ModalContactUs(props) {
   };
 
   return (
-    <Modal open={open} setOpen={setOpen} title="Contact Us" >
-      <div className="flex flex-col  justify-center m-auto mb-14  ">
-        <div className="block p-6 pl-0 pr-0 lg:p-10 md:p-10 max-w-[768px] m-auto w-full">
+    <Modal open={open} setOpen={setOpen} title="Contact Us"  >
+      <div className="flex flex-col  justify-center m-auto w-full  ">
+        <div className="block px-2 lg:p-10 md:p-10 md:w-[768px] m-auto  w-[350px] ">
           <form ref={form} onSubmit={sendEmail}>
             <InputWrapper>
               <Input
