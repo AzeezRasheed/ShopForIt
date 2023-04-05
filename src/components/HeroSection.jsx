@@ -16,7 +16,7 @@ lg:flex  w-full h-full px-4 py-6 items-center justify-center m-auto gap-6
 
 const SLIDER = styled.div`
   ${tw`
-flex flex-col gap-4 items-start text-start z-10
+flex flex-col gap-4 items-start text-start 
 `}
 `;
 
