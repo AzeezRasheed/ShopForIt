@@ -1,4 +1,5 @@
 import React from "react";
+import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 import tw from "twin.macro";
 
@@ -28,7 +29,7 @@ const HeaderWrapper = styled.h2`
 
 const Header = styled.h2`
   ${tw`
-   text-[20px] mr-2 leading-[20px] w-full text-white font-normal font-Montserrat
+   text-[20px] mr-2 leading-[20px] w-full font-normal font-Montserrat
 `}
 `;
 
@@ -40,11 +41,13 @@ const LinkWrapper = styled.ul`
 
 const Link = styled.ul`
   ${tw`
-  hover:underline font-Montserrat font-normal text-[16px] leading-[20px] text-white cursor-pointer
+  hover:underline font-Montserrat font-normal text-[16px] leading-[20px] cursor-pointer
 `}
 `;
 
 function FooterLinks() {
+  const location = useLocation();
+  const pathname = location.pathname;
   return (
     <Container>
       <Wrapper>
@@ -52,26 +55,67 @@ function FooterLinks() {
 
         <LinksWrapper>
           <HeaderWrapper>
-            <Header>Contact Us</Header>
+            <Header
+              style={{
+                color: pathname === "/" ? "#FFFFFF" : "#222222",
+              }}
+            >
+              Contact Us
+            </Header>
           </HeaderWrapper>
           <LinkWrapper>
             <li className="mb-6">
-              <Link href="/">About Us</Link>
+              <Link
+                href="/"
+                style={{
+                  color: pathname === "/" ? "#FFFFFF" : "#222222",
+                }}
+              >
+                About Us
+              </Link>
             </li>
             <li className="mb-6">
-              <Link href="/">FAQ</Link>
+              <Link
+                href="/"
+                style={{
+                  color: pathname === "/" ? "#FFFFFF" : "#222222",
+                }}
+              >
+                FAQ
+              </Link>
             </li>
 
             <li className="mb-6">
-              <Link href="/">Delivery Information</Link>
+              <Link
+                href="/"
+                style={{
+                  color: pathname === "/" ? "#FFFFFF" : "#222222",
+                }}
+              >
+                Delivery Information
+              </Link>
             </li>
 
             <li className="mb-6">
-              <Link href="/">Contact us</Link>
+              <Link
+                href="/"
+                style={{
+                  color: pathname === "/" ? "#FFFFFF" : "#222222",
+                }}
+              >
+                Contact us
+              </Link>
             </li>
 
             <li className="mb-6">
-              <Link href="/">About Us</Link>
+              <Link
+                href="/"
+                style={{
+                  color: pathname === "/" ? "#FFFFFF" : "#222222",
+                }}
+              >
+                About Us
+              </Link>
             </li>
           </LinkWrapper>
         </LinksWrapper>
@@ -79,22 +123,56 @@ function FooterLinks() {
         {/* second grid */}
         <LinksWrapper>
           <HeaderWrapper>
-            <Header>Account</Header>
+            <Header
+              style={{
+                color: pathname === "/" ? "#FFFFFF" : "#222222",
+              }}
+            >
+              Account
+            </Header>
           </HeaderWrapper>
           <LinkWrapper>
             <li className="mb-6">
-              <Link href="/">My Account</Link>
+              <Link
+                href="/"
+                style={{
+                  color: pathname === "/" ? "#FFFFFF" : "#222222",
+                }}
+              >
+                My Account
+              </Link>
             </li>
             <li className="mb-6">
-              <Link href="/">Order History</Link>
+              <Link
+                href="/"
+                style={{
+                  color: pathname === "/" ? "#FFFFFF" : "#222222",
+                }}
+              >
+                Order History
+              </Link>
             </li>
 
             <li className="mb-6">
-              <Link href="/">Wish List</Link>
+              <Link
+                href="/"
+                style={{
+                  color: pathname === "/" ? "#FFFFFF" : "#222222",
+                }}
+              >
+                Wish List
+              </Link>
             </li>
 
             <li className="mb-6">
-              <Link href="/">Specials</Link>
+              <Link
+                href="/"
+                style={{
+                  color: pathname === "/" ? "#FFFFFF" : "#222222",
+                }}
+              >
+                Specials
+              </Link>
             </li>
           </LinkWrapper>
         </LinksWrapper>
@@ -102,26 +180,67 @@ function FooterLinks() {
 
         <LinksWrapper>
           <HeaderWrapper>
-            <Header>Services</Header>
+            <Header
+              style={{
+                color: pathname === "/" ? "#FFFFFF" : "#222222",
+              }}
+            >
+              Services
+            </Header>
           </HeaderWrapper>
           <LinkWrapper>
             <li className="mb-6">
-              <Link href="/">Discount Returns</Link>
+              <Link
+                href="/"
+                style={{
+                  color: pathname === "/" ? "#FFFFFF" : "#222222",
+                }}
+              >
+                Discount Returns
+              </Link>
             </li>
             <li className="mb-6">
-              <Link href="/">Policy</Link>
+              <Link
+                href="/"
+                style={{
+                  color: pathname === "/" ? "#FFFFFF" : "#222222",
+                }}
+              >
+                Policy
+              </Link>
             </li>
 
             <li className="mb-6">
-              <Link href="/">Customer Service</Link>
+              <Link
+                href="/"
+                style={{
+                  color: pathname === "/" ? "#FFFFFF" : "#222222",
+                }}
+              >
+                Customer Service
+              </Link>
             </li>
 
             <li className="mb-6">
-              <Link href="/">About Us</Link>
+              <Link
+                href="/"
+                style={{
+                  color: pathname === "/" ? "#FFFFFF" : "#222222",
+                }}
+              >
+                About Us
+              </Link>
             </li>
 
             <li className="mb-6">
-              <Link href="/">Terms & condition</Link>
+              <Link
+                href="/"
+                style={{
+                  color: pathname === "/" ? "#FFFFFF" : "#222222",
+                }}
+              >
+                Terms & condition
+              </Link>
             </li>
           </LinkWrapper>
         </LinksWrapper>
@@ -130,18 +249,32 @@ function FooterLinks() {
 
         <LinksWrapper>
           <HeaderWrapper>
-            <Header>Newsletter</Header>
+            <Header
+              style={{
+                color: pathname === "/" ? "#FFFFFF" : "#222222",
+              }}
+            >
+              Newsletter
+            </Header>
           </HeaderWrapper>
           <div className="w-full h-full max-h-[206px] flex ">
             <div className="h-full flex flex-col w-full justify-between ">
-              <span className="font-Montserrat font-normal text-[16px] leading-[20px] text-white">
+              <span
+                className={`font-Montserrat font-normal text-[16px] leading-[20px]  text-[${
+                  pathname === "/" ? "#FFFFFF" : "#222222"
+                }]`}
+              >
                 Get instant updates about our new collections and special
                 promos.
               </span>
 
               <input
                 placeholder="Enter your email here..."
-                className="border border-solid border-[#5C6273] px-2 bg-transparent items-center text-start py-2 w-full placeholder:font-Montserrat placeholder:text-white placeholder:text-[12px] outline-none text-white "
+                className={`border border-solid border-[#5C6273] px-2 bg-transparent items-center text-start py-2 w-full placeholder:font-Montserrat placeholder:text-[${
+                  pathname === "/" ? "#FFFFFF" : "#222222"
+                }] placeholder:text-[12px] outline-none text-[${
+                  pathname === "/" ? "#FFFFFF" : "#222222"
+                }] `}
               />
             </div>
           </div>

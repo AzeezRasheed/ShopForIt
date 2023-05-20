@@ -1,15 +1,31 @@
 import React from "react";
-import { Route, Routes } from "react-router-dom";
-import Home from './pages/Home';
-
+import routes from "./routes/routes";
+import { BrowserRouter, useRoutes } from "react-router-dom";
+import store from "./redux/store";
+import { Provider } from "react-redux";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+const Router = () => useRoutes(routes);
 
 function App() {
   return (
-    <>
-      <Routes>
-       <Route path="/" exact element={<Home />} />
-      </Routes>
-    </>
+    <Provider store={store}>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
+      <BrowserRouter>
+        <Router />
+      </BrowserRouter>
+    </Provider>
   );
 }
 

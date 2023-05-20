@@ -1,13 +1,28 @@
-import React, { Fragment, useEffect, useRef, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import styled from "styled-components";
 import tw from "twin.macro";
-import LOGO from "../assets/SHOP FOR IT.png";
+import LogoWhite from "../assets/SHOP FOR IT.png";
+import LogoBlack from "../assets/LogoBlack.png";
 import { Menu, Transition } from "@headlessui/react";
 import { BiChevronDown } from "react-icons/bi";
 import { FiSearch } from "react-icons/fi";
-import { AiOutlineHeart } from "react-icons/ai";
+import { AiOutlineHeart, AiOutlineLeft } from "react-icons/ai";
 import { HiOutlineShoppingCart } from "react-icons/hi";
 import { FiUser } from "react-icons/fi";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import Button from "./Button/Button";
+import Typography from "./Typography/Typography";
+import Stack from "./Stack/Stack";
+import { Drawer } from "@mui/material";
+import DrawerRight from "./DrawerRight";
+import { useIsUserLoggedIn } from "../redux/auth/authSlice";
+import { useGetProducts } from "../redux/product/productSlice";
+import {
+  FILTER_PRODUCTS,
+  useSelectFilteredProducts,
+} from "../redux/product/filterSlice";
+import { useDispatch } from "react-redux";
+import { useGetCart } from "../redux/cart/cartSlice";
 const CONTAINER = styled.div`
   ${tw`
   flex flex-col w-full
@@ -16,13 +31,13 @@ const CONTAINER = styled.div`
 
 const NAVBARUP = styled.div`
   ${tw`
-  px-4 md:px-14 py-6 bg-[#041706] w-full items-center border border-solid border-[#152917]
+  px-4 md:px-14 py-6  w-full items-center 
 `}
 `;
 
 const NAVBARDOWN = styled.div`
   ${tw`
-  px-4 lg:px-14 py-6 bg-[#041706] w-full items-center border border-solid border-[#152917] justify-center
+  px-4 lg:px-14 py-6 w-full items-center   
 `}
 `;
 
@@ -32,7 +47,7 @@ const INNERWRAPPER = styled.div`
 `}
 `;
 
-const LOGOWRAPPER = styled.a`
+const LOGOWRAPPER = styled.div`
   ${tw`
  flex items-center cursor-pointer
 `}
@@ -40,55 +55,103 @@ const LOGOWRAPPER = styled.a`
 
 const SEARCHCOMPONENT = styled.div`
   ${tw`
- flex items-center bg-[#424242] rounded-[6px]   
+ flex items-center rounded-[6px] w-full
 `}
 `;
 
 const ICONS = styled.div`
   ${tw`
-flex items-center justify-center px-2
+flex items-center justify-center px-2 z-50 
 `}
 `;
 
-const ICONBUTTON = styled.button`
+const ICONBUTTON = styled.div`
   ${tw`
-mr-5 items-center text-white
+mr-5 items-center relative  z-50 h-full py-2
 `}
 `;
 
 const LIST = styled.li`
   ${tw`
-text-[13px] font-semibold leading-[16px] text-white flex items-center text-white font-Montserrat
+text-[13px] font-semibold leading-[16px] flex items-center font-Montserrat
 `}
 `;
 function Navbar() {
+  const [search, setSearch] = useState("");
   const [eventLocation, setEventLocation] = useState("");
   const [nextEvent, setNextEvent] = useState("");
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const location = useLocation();
+  const pathname = location.pathname;
+  const isLoggedIn = useIsUserLoggedIn();
+  const dispatch = useDispatch();
+  const products = useGetProducts();
+  const filteredProducts = useSelectFilteredProducts();
+  const cart = useGetCart();
+  const cartTotal = cart.length;
+  const navigate = useNavigate();
+  useEffect(() => {
+    dispatch(FILTER_PRODUCTS({ products, search }));
+  }, [products, dispatch, search]);
+
+  const handleDrawerOpen = () => {
+    setIsDrawerOpen(true);
+  };
+
+  const handleDrawerClose = () => {
+    setIsDrawerOpen(false);
+  };
+
   return (
     <>
       <CONTAINER>
-        <NAVBARUP>
+        <NAVBARUP
+          style={{
+            backgroundColor: pathname === "/" ? "#041706" : "#FFFFFF",
+            border:
+              pathname === "/" ? "1px solid #152917" : "0.5px solid #CFCFCF",
+          }}
+        >
           <INNERWRAPPER>
             <div className="lg:w-1/5 w-full">
-              <LOGOWRAPPER href="/">
-                <img
-                  src={LOGO}
-                  alt="shop for it"
-                  className="w-[36px] h-[36px] "
-                />
-                <span className="font-Montserrat font-medium text-2xl text-white cursor-pointer">
-                  shop for it
-                </span>
-              </LOGOWRAPPER>
+              <Link to="/">
+                <LOGOWRAPPER>
+                  <img
+                    src={pathname === "/" ? LogoWhite : LogoBlack}
+                    alt="shop for it"
+                    className="w-[36px] h-[36px] "
+                  />
+                  <span
+                    className={`font-Montserrat font-medium text-2xl text-[${
+                      pathname === "/" ? "#FFFFFF" : "#000000"
+                    }] cursor-pointer`}
+                  >
+                    shop for it
+                  </span>
+                </LOGOWRAPPER>
+              </Link>
             </div>
-            <div className="w-3/5 hidden lg:block ">
-              <SEARCHCOMPONENT>
-                <div className="items-center flex justify-center">
-                  <div className="border-r border-solid border-r-[#535353] h-full items-center flex ">
-                    <div className="px-10  py-3 w-full items-center">
+            <div className={`w-3/5 hidden lg:block `}>
+              <SEARCHCOMPONENT
+                style={{
+                  backgroundColor: pathname === "/" ? "#424242" : "#FFFFFF",
+                  border: pathname === "/" ? "none" : "0.5px solid #CFCFCF",
+                }}
+              >
+                <div className={`items-center flex justify-center w-full  `}>
+                  <div className={`" h-full items-center flex "`}>
+                    <div
+                      className={`px-10  py-3 w-full items-center border-r border-solid border-r-[${
+                        location.pathname === "/" ? "#535353" : "#000000"
+                      }] `}
+                    >
                       <Menu as="div" className="relative  text-left">
                         <div>
-                          <Menu.Button className="  flex  items-center text-center text-white text-[12px] leading-[15px] w-[110px]  font-normal font-Montserrat  ">
+                          <Menu.Button
+                            className={`flex  items-center text-center text-[${
+                              pathname === "/" ? "#FFFFFF" : "#000000"
+                            }] text-[12px] leading-[15px] w-[110px]  font-normal font-Montserrat`}
+                          >
                             All categories
                             <BiChevronDown
                               size={25}
@@ -159,54 +222,177 @@ function Navbar() {
                   </div>
 
                   <div
-                    className={` relative items-center m-auto  w-full  max-w-[540px]  h-full  `}
+                    className={` relative items-center m-auto  w-full h-full `}
                   >
                     <input
                       type="text "
                       placeholder="Search for products..."
-                      onChange={(e) => setNextEvent(e.target.value)}
-                      className={` relative peer placeholder:text-white placeholder:font-Montserrat placeholder:text-xs  z-10 bg-transparent outline-none  focus:cursor-text pl-10 `}
+                      value={search}
+                      onChange={(e) => setSearch(e.target.value)}
+                      className={` relative peer placeholder:text-[${
+                        pathname === "/" ? "#FFFFFF" : "#787878"
+                      }] text-[${
+                        pathname === "/" ? "#FFFFFF" : "#787878"
+                      }]  placeholder:font-Montserrat placeholder:text-xs  z-10 bg-transparent outline-none  focus:cursor-text pl-10 w-full `}
                     />
 
-                    <FiSearch className="absolute top-0 bottom-0 inset-y-0 h-8 w-12 my-auto px-3.5 pt-0 items-center text-white  " />
+                    <FiSearch
+                      className={`absolute top-0 bottom-0 inset-y-0 h-8 w-12 my-auto px-3.5 pt-0 items-center text-[${
+                        location.pathname === "/" ? "#FFFFFF" : "#000000"
+                      }]`}
+                    />
+                    {/* Conditionally render the dropdown */}
+                    {search && filteredProducts.length > 0 && (
+                      <div className="absolute top-8 z-50 left-0 w-full bg-white shadow-lg text-left">
+                        <div className="origin-top-right absolute right-0 mt-2 w-full rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                          <div className="py-1">
+                            {filteredProducts.map((product) => {
+                              return (
+                                <div key={product?._id}>
+                                  <button
+                                    onClick={() => {
+                                      navigate(
+                                        `/products/info/${product?._id}`
+                                      );
+                                      setSearch("");
+                                    }}
+                                    className={`
+                                  hover:bg-gray-100 hover:text-gray-900 "text-gray-700" flex items-center flex-row w-full px-4 py-2 text-sm`}
+                                  >
+                                    {product.title}
+                                  </button>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
               </SEARCHCOMPONENT>
             </div>
-            <div className="w-1/5">
+            <div className="w-1/5 z-50 ">
               <ICONS>
-                <ICONBUTTON>
-                  <AiOutlineHeart size={22} />
-                </ICONBUTTON>
-                <ICONBUTTON>
-                  <HiOutlineShoppingCart size={22} />
-                </ICONBUTTON>
-                <ICONBUTTON>
-                  <FiUser size={22} />
-                </ICONBUTTON>
+                <Button
+                  ripple={true}
+                  onClick={() => {
+                    setIsDrawerOpen(true);
+                  }}
+                >
+                  <ICONBUTTON
+                    style={{
+                      color: pathname === "/" ? "#FFFFFF" : "#000000",
+                    }}
+                  >
+                    <AiOutlineHeart size={22} />
+                  </ICONBUTTON>
+                </Button>
+                <Button
+                  ripple={true}
+                  onClick={handleDrawerOpen}
+                  style={{
+                    position: "relative",
+                  }}
+                >
+                  <ICONBUTTON
+                    style={{
+                      color: pathname === "/" ? "#FFFFFF" : "#000000",
+                    }}
+                  >
+                    <span>
+                      <HiOutlineShoppingCart size={22} />
+                    </span>
+                    <div className="absolute w-full justify-center flex m-auto z-50 -top-1  text-[#079627] font-normal text-[13px] items-center uppercase ">
+                      <span className="z-50 text-center">{cartTotal}</span>
+                    </div>
+                  </ICONBUTTON>
+                </Button>
+                {isLoggedIn && (
+                  <Button ripple={true} onClick={() => {}}>
+                    <ICONBUTTON
+                      style={{
+                        color: pathname === "/" ? "#FFFFFF" : "#000000",
+                      }}
+                    >
+                      <FiUser size={22} />
+                    </ICONBUTTON>
+                  </Button>
+                )}
               </ICONS>
             </div>
           </INNERWRAPPER>
         </NAVBARUP>
 
-        <NAVBARDOWN>
-          <INNERWRAPPER>
-            <ul className="flex items-center justify-between gap-5 list-none m-auto ">
-              <LIST>
-                <a href="/">Home</a>
-              </LIST>
-              <LIST>
-                <a href="/">Wigs</a>
-              </LIST>
-              <LIST>
-                <a href="/">Extensions</a>
-              </LIST>
-              <LIST>
-                <a href="/">Become a Vendor</a>
-              </LIST>
-            </ul>
-          </INNERWRAPPER>
+        <NAVBARDOWN
+          style={{
+            backgroundColor: pathname === "/" ? "#041706" : "#F3F3F3",
+            border: pathname === "/" ? "1px solid #152917" : "none",
+            justifyContent: "center",
+            width: "100%",
+          }}
+        >
+          {pathname === "/" ? (
+            <INNERWRAPPER>
+              <ul className="flex items-center justify-between gap-5 color-none m-auto ">
+                <LIST
+                  style={{
+                    color: pathname === "/" ? "#FFFFFF" : "#000000",
+                  }}
+                >
+                  <a href="/">Home</a>
+                </LIST>
+                <LIST
+                  style={{
+                    color: pathname === "/" ? "#FFFFFF" : "#000000",
+                  }}
+                >
+                  <Link to="/products">Products</Link>
+                </LIST>
+                <LIST
+                  style={{
+                    color: pathname === "/" ? "#FFFFFF" : "#000000",
+                  }}
+                >
+                  <a href="/">Support</a>
+                </LIST>
+                <LIST
+                  style={{
+                    color: pathname === "/" ? "#FFFFFF" : "#000000",
+                  }}
+                >
+                  <a href="/">Become a Vendor</a>
+                </LIST>
+              </ul>
+            </INNERWRAPPER>
+          ) : (
+            <Stack justifyContent="spacebetween" direction="row">
+              <Button onClick={() => {}} ripple={true}>
+                <Typography as={"h3"} variant="black" size="bodySmall">
+                  Home/Wigs
+                </Typography>
+              </Button>
+              <Button onClick={() => {}} ripple={true}>
+                <Stack direction="row" className="gap-1">
+                  <AiOutlineLeft size={10} />
+                  <Typography as={"h3"} variant="black" size="bodySmall">
+                    Previous Page
+                  </Typography>
+                </Stack>
+              </Button>
+            </Stack>
+          )}
         </NAVBARDOWN>
+
+        <Fragment>
+          <Drawer
+            anchor="right"
+            open={isDrawerOpen}
+            onClose={handleDrawerClose}
+          >
+            <DrawerRight />
+          </Drawer>
+        </Fragment>
       </CONTAINER>
     </>
   );

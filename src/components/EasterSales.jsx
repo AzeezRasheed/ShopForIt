@@ -1,9 +1,14 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { BiChevronRight, BiChevronLeft } from "react-icons/bi";
 import Collection2 from "../assets/Collection2.png";
 import { useSnapCarousel } from "react-snap-carousel";
 import styled from "styled-components";
 import tw from "twin.macro";
+import { useGetProducts } from "../redux/product/productSlice";
+import { useDispatch } from "react-redux";
+import { addToCart, useGetCart } from "../redux/cart/cartSlice";
+import { Circles } from "react-loader-spinner";
+import { useNavigate } from "react-router";
 
 const ScrollItem = styled.div`
   ${tw`
@@ -59,7 +64,7 @@ const ButtonWrapper = styled.div`
 
 const Image = styled.img`
   ${tw`
-  w-[185px]  h-full items-center
+  w-[185px]  h-full max-h-[209px] items-center
 
 `}
 `;
@@ -99,107 +104,122 @@ const SliderContainer = styled.div`
 `}
 `;
 
-const SeasonsSalesData = [
-  {
-    image: Collection2,
-    title: "Cuticle Aligned Hair 4x4 Closure Lace Front Wig",
-    reviews: "4",
-    description:
-      "cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa ",
-    oldPrice: "#11,000 - #16,700",
-    currentPrice: "#10,000 - #15,000",
-  },
-  {
-    image: Collection2,
-    title: "Cuticle Aligned Hair 4x4 Closure Lace Front Wig",
-    reviews: "4",
-    description:
-      "cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa ",
-    oldPrice: "#11,000 - #16,700",
-    currentPrice: "#10,000 - #15,000",
-  },
-  {
-    image: Collection2,
-    title: "Cuticle Aligned Hair 4x4 Closure Lace Front Wig",
-    reviews: "4",
-    description:
-      "cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa ",
-    oldPrice: "#11,000 - #16,700",
-    currentPrice: "#10,000 - #15,000",
-  },
-  {
-    image: Collection2,
-    title: "Cuticle Aligned Hair 4x4 Closure Lace Front Wig",
-    reviews: "4",
-    description:
-      "cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa ",
-    oldPrice: "#11,000 - #16,700",
-    currentPrice: "#10,000 - #15,000",
-  },
-  {
-    image: Collection2,
-    title: "Cuticle Aligned Hair 4x4 Closure Lace Front Wig",
-    reviews: "4",
-    description:
-      "cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa ",
-    oldPrice: "#11,000 - #16,700",
-    currentPrice: "#10,000 - #15,000",
-  },
-];
-
 function EasterSales() {
+  const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(true);
+  const [filteredProduct, setFilteredProduct] = useState([]);
+  const navigate = useNavigate();
+
   const { scrollRef, pages, activePageIndex, next, prev, goTo } =
     useSnapCarousel();
+
+  const products = useGetProducts();
+  const cart = useGetCart();
+
+  const event = "Easter Sunday";
+  useEffect(() => {
+    const filteredCollection = products.filter(
+      (product) =>
+        product?.event &&
+        product.event.toLowerCase().includes(event.toLowerCase())
+    );
+    setFilteredProduct(filteredCollection);
+    if (filteredProduct) {
+      setIsLoading(false);
+    }
+    return filteredCollection;
+  }, [products]);
+  console.log({ filteredProduct });
+
   return (
     <Container>
       <InnerWrapper>
         <Header>Easter Sales</Header>
-        <ButtonWrapper>
-          <button onClick={() => prev()}>
-            <BiChevronLeft />
-          </button>
-          <button onClick={() => next()}>
-            <BiChevronRight />
-          </button>
-        </ButtonWrapper>
+        {filteredProduct.length > 0 && (
+          <ButtonWrapper>
+            <button onClick={() => prev()}>
+              <BiChevronLeft />
+            </button>
+            <button onClick={() => next()}>
+              <BiChevronRight />
+            </button>
+          </ButtonWrapper>
+        )}
       </InnerWrapper>
 
-      <SliderContainer>
-        <div
-          ref={scrollRef}
-          style={{
-            display: "flex",
-            overflow: "hidden",
-            gap: "10px",
-            width: "100%",
-            height: "100%",
-            alignItems: "center",
-            scrollSnapType: "x mandatory",
-          }}
-        >
-          {SeasonsSalesData.map((item, index) => (
-            <ScrollItem key={index} onClick={() => {}}>
-              <Image src={item.image} alt="..." />
-
-              <div className="flex flex-col gap-2 text-start items-start ">
-                <Title>{item.title}</Title>
-                <Reviews>{item.reviews} Reviews</Reviews>
-                <Description>{item.description}</Description>
-                <div className="flex flex-col items-end">
-                  <OldPrice style={{ textDecoration: "line-through" }}>
-                    {item.oldPrice}
-                  </OldPrice>
-                  <CurrentPrice>{item.currentPrice}</CurrentPrice>
-                </div>
-                <div className="flex gap-3 items-center">
-                  <OrderNow onClick={() => {}}>ORDER NOW</OrderNow>
-                  <AddToCart onClick={() => {}}>ADD TO CART</AddToCart>
-                </div>
+      {filteredProduct.length > 0 && (
+        <SliderContainer>
+          <div
+            ref={scrollRef}
+            style={{
+              display: "flex",
+              overflow: "hidden",
+              gap: "10px",
+              width: "100%",
+              height: "100%",
+              alignItems: "center",
+              scrollSnapType: "x mandatory",
+            }}
+          >
+            {isLoading ? (
+              <div className="items-center text-center m-auto flex justify-center ">
+                <Circles color="#FFFFFF" height="100" width="100" visible />
               </div>
-            </ScrollItem>
-          ))}
-        </div>
-      </SliderContainer>
+            ) : (
+              <>
+                {filteredProduct.map((item, index) => {
+                  const isItemInCart = cart.some(
+                    (cartItem) => cartItem.id === item._id
+                  );
+                  return (
+                    <ScrollItem key={index} onClick={() => {}}>
+                      <Image src={item?.images[0]?.filePath} alt="..." />
+
+                      <div className="flex flex-col gap-2 text-start items-start ">
+                        <Title>{item?.title}</Title>
+                        <Reviews>{item?.ratings.length} Reviews</Reviews>
+                        <Description>
+                          {item?.descriptions[0]?.value}
+                        </Description>
+                        <div className="flex flex-col items-start">
+                          <OldPrice style={{ textDecoration: "line-through" }}>
+                            #{item?.oldPrice}
+                          </OldPrice>
+                          <CurrentPrice>#{item?.newPrice}</CurrentPrice>
+                        </div>
+                        <div className="flex gap-3 items-center">
+                          <OrderNow
+                            onClick={() => {
+                              navigate(`/products/info/${item?._id}`);
+                            }}
+                          >
+                            ORDER NOW
+                          </OrderNow>
+                          {!isItemInCart ? (
+                            <AddToCart
+                              onClick={() => {
+                                dispatch(
+                                  addToCart({ id: item._id, quantity: 1 })
+                                );
+                              }}
+                            >
+                              ADD TO CART
+                            </AddToCart>
+                          ) : (
+                            <p className="notification  text-white  text-[14px] text-center leading-[16px] font-light font-Roboto ">
+                              Item added to cart!
+                            </p>
+                          )}
+                        </div>
+                      </div>
+                    </ScrollItem>
+                  );
+                })}
+              </>
+            )}
+          </div>
+        </SliderContainer>
+      )}
     </Container>
   );
 }

@@ -6,8 +6,7 @@ import { AiTwotoneStar } from "react-icons/ai";
 import Testimonial1 from "../assets/Testimonial1.png";
 import Testimonial2 from "../assets/Testimonial2.png";
 import Testimonial3 from "../assets/Testimonial3.png";
-import {ImQuotesLeft, ImQuotesRight} from "react-icons/im"
-
+import { ImQuotesLeft, ImQuotesRight } from "react-icons/im";
 
 const Container = styled.section`
   ${tw`
@@ -79,7 +78,7 @@ function ClientReview() {
     }
   }
 
-  const [isActive, setActive] = useState("");
+  const [isActive, setActive] = useState(0);
 
   const image = [
     "https://randomuser.me/api/portraits/women/79.jpg",
@@ -142,12 +141,11 @@ function ClientReview() {
             })}
           </div>
 
-
           <div className="absolute -top-3 left-8 text-white ">
-            <ImQuotesLeft size={28}/>
+            <ImQuotesLeft size={28} />
           </div>
           <div className="absolute -bottom-3 right-8 text-white ">
-            <ImQuotesRight size={28}/>
+            <ImQuotesRight size={28} />
           </div>
         </SliderContainer>
 
@@ -163,9 +161,9 @@ function ClientReview() {
               <img
                 src={image[index]}
                 alt="user"
-                className={`cursor-pointer transition duration-200 ease-in-out transform hover:scale-x-105  rounded-full
-                 h-${isActive === index ? "16" : "12"} 
-                 w-${isActive === index ? "16" : "12"}  
+                className={`cursor-pointer transition duration-200 ease-in-out transform hover:scale-x-50  rounded-full
+                 h-${isActive === index ? "12" : "8"} 
+                 w-${isActive === index ? "12" : "8"}  
   
                  `}
               />

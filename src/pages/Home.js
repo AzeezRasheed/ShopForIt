@@ -1,23 +1,37 @@
-import React from 'react'
-import ClientReview from '../components/ClientReview'
-import Collection from '../components/Collection'
-import Footer from '../components/Footer'
-import Header from '../components/Header'
-import HeroSection from '../components/HeroSection'
-import Navbar from '../components/Navbar'
+import React, { useEffect } from "react";
+import ClientReview from "../components/ClientReview";
+import Collection from "../components/Collection";
+import HeroSection from "../components/HeroSection";
+import { useIsUserLoggedIn } from "../redux/auth/authSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { getProducts } from "../redux/product/productSlice";
+import { IS_LOGGEDIN } from "../services/authServices";
 
 function Home() {
-  return (
-   <>
-   <Header/>
-   <Navbar/>
-   <HeroSection/>
-   <Collection/>
-   <ClientReview/>
-   <Footer/>
-   </>
+  const dispatch = useDispatch();
+  const { products, isLoading, isError, message } = useSelector(
+    (state) => state.product
+  );
 
-  )
+  useEffect(async () => await dispatch(getProducts()), []);
+  
+  useEffect(async () => {
+    const isLoggedIn = await IS_LOGGEDIN();
+    console.log(isLoggedIn);
+
+    if (isError) {
+      console.log(message);
+    }
+  }, [, isError, message, dispatch]);
+
+  console.log(products);
+  return (
+    <>
+      <HeroSection />
+      <Collection />
+      <ClientReview />
+    </>
+  );
 }
 
-export default Home
+export default Home;

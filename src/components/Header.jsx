@@ -3,10 +3,11 @@ import { BsFacebook, BsInstagram, BsTwitter, BsYoutube } from "react-icons/bs";
 import styled from "styled-components";
 import tw from "twin.macro";
 import ModalContactUs from "./ModalContactUs";
+import { useLocation } from "react-router-dom";
 
 const Container = styled.header`
   ${tw`
-px-4 md:px-14 py-2 bg-[#041706] w-full items-center text-center
+px-4 md:px-14 py-2 w-full items-center text-center
 `}
 `;
 
@@ -30,25 +31,31 @@ text-[#C0C0C0] cursor-pointer
 
 const TITLE = styled.h2`
   ${tw`
-font-Montserrat font-normal text-sm text-white text-center
+font-Montserrat font-normal text-sm text-center
   `}
 `;
 
 const Button = styled.button`
   ${tw`
-font-Montserrat font-normal text-sm text-white
+font-Montserrat font-normal text-sm
   `}
 `;
 function Header() {
   const [isModalOpen, setModalOpen] = useState(false);
+  const location = useLocation();
+  const pathname = location.pathname;
   return (
-    <Container>
+    <Container
+      style={{
+        backgroundColor: pathname === "/" ? "#041706" : "#FFFFFF",
+      }}
+    >
       {isModalOpen && (
         <ModalContactUs open={isModalOpen} setOpen={setModalOpen} />
       )}
       <InnerWrapper>
         <div>
-          <SocialMediaWrapper className="">
+          <SocialMediaWrapper>
             <SocialMediaAction href="/">
               <BsInstagram />
               <span className="sr-only">Instagram page</span>
@@ -72,13 +79,24 @@ function Header() {
         <div className="hidden lg:block text-center flex-1 items-center justify-center  ">
           <div>
             <div>
-              <TITLE>Free Shipping for most week order!!</TITLE>
+              <TITLE
+                style={{
+                  color: pathname === "/" ? "#FFFFFF" : "#000000",
+                }}
+              >
+                Free Shipping for most week order!!
+              </TITLE>
             </div>
           </div>
         </div>
 
         <div>
-          <Button onClick={() => setModalOpen(true)}>
+          <Button
+            onClick={() => setModalOpen(true)}
+            style={{
+              color: pathname === "/" ? "#FFFFFF" : "#000000",
+            }}
+          >
             contact@shopforit.com
           </Button>
         </div>
