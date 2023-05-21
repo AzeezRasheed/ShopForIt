@@ -5,20 +5,29 @@ import Collection1 from "../assets/Collection1.png";
 import { GiCancel } from "react-icons/gi";
 import Button from "./Button/Button";
 import shoppingCartData from "../data/shoppingCart";
-import { removeItem, useGetCart } from "../redux/cart/cartSlice";
+import {
+  decrementQuantity,
+  incrementQuantity,
+  removeItem,
+  useGetCart,
+} from "../redux/cart/cartSlice";
 import { useGetProducts } from "../redux/product/productSlice";
 import { useDispatch } from "react-redux";
+import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
+import { useNavigate } from "react-router-dom";
 
 const DrawerRight = () => {
   const dispatch = useDispatch();
   const cart = useGetCart();
   const cartTotal = cart.length;
   const items = useGetProducts();
+  const navigate = useNavigate();
+
   return (
     <Stack
       direction="column"
       alignItems="center"
-      className={"gap-4 w-[360px] md:w-[433px] py-10 px-12"}
+      className={"gap-4 w-[360px] md:w-[433px] py-10 px-1 md:px-6 "}
     >
       <Typography size="heading3" variant="black">
         Shopping Cart ({cartTotal})
@@ -31,7 +40,13 @@ const DrawerRight = () => {
               const item = items.find((item) => item._id === data.id);
               if (item) {
                 return (
-                  <div key={data.id} className="w-full">
+                  <button
+                    onClick={() => {
+                      navigate(`/products/info/${data.id}`);
+                    }}
+                    key={data.id}
+                    className="w-full"
+                  >
                     <Stack
                       direction="row"
                       alignItems="center"
@@ -69,10 +84,28 @@ const DrawerRight = () => {
                             <span className=" text-[#CFCFCF] text-center text-[14px] leading-[16px] font-light font-Roboto   ">
                               Qty:
                             </span>
-                            <div className="py-0.5 px-3 border border-[#C0C0C0] text-center ">
-                              <span className=" text-[#CFCFCF] text-center text-[14px] leading-[16px] font-light font-Roboto   ">
-                                {data?.quantity}
-                              </span>
+                            <div className="flex flex-wrap gap-1">
+                              <Button
+                                ripple={true}
+                                onClick={() => {
+                                  dispatch(decrementQuantity(data?.id));
+                                }}
+                              >
+                                <AiOutlineMinus size={12} color="#CFCFCF" />
+                              </Button>
+                              <div className="py-0.5 px-3 border border-[#C0C0C0] text-center ">
+                                <span className=" text-[#CFCFCF] text-center text-[14px] leading-[16px] font-light font-Roboto   ">
+                                  {data?.quantity}
+                                </span>
+                              </div>
+                              <Button
+                                ripple={true}
+                                onClick={() => {
+                                  dispatch(incrementQuantity(data?.id));
+                                }}
+                              >
+                                <AiOutlinePlus size={12} color="#CFCFCF" />
+                              </Button>
                             </div>
                           </div>
                         </div>
@@ -90,7 +123,7 @@ const DrawerRight = () => {
                         />
                       </Button>
                     </Stack>
-                  </div>
+                  </button>
                 );
               }
             })}

@@ -9,7 +9,7 @@ import tw from "twin.macro";
 
 const InputWrapper = styled.div`
   ${tw`
-  mb-3 md:mb-6 mt-2 lg:mt-0
+  mb-2 md:mb-4 mt-2 lg:mt-0
 `}
 `;
 
@@ -137,7 +137,7 @@ function ModalContactUs(props) {
               />
             </InputWrapper>
 
-            <div className="flex justify-between items-center mb-6">
+            <div className="flex justify-between items-center mb-4">
               <TextArea name="message" rows="7" placeholder="Your Message" />
             </div>
             <Button type="submit">Send Message</Button>

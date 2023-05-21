@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { BiChevronRight, BiChevronLeft } from "react-icons/bi";
-import Collection2 from "../assets/Collection2.png";
 import { useSnapCarousel } from "react-snap-carousel";
 import styled from "styled-components";
 import tw from "twin.macro";
@@ -9,6 +8,8 @@ import { Circles } from "react-loader-spinner";
 import { addToCart, useGetCart } from "../redux/cart/cartSlice";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
+import Typography from "./Typography/Typography";
+import Stack from "./Stack/Stack";
 
 const ScrollItem = styled.div`
   ${tw`
@@ -110,6 +111,8 @@ function BlackFridaySales() {
     useSnapCarousel();
   const [filteredProduct, setFilteredProduct] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [inchesType, setInchesType] = useState("select");
+  const [isStretchedLength, setIsStretchedLength] = useState(false);
   const navigate = useNavigate();
 
   const products = useGetProducts();
@@ -172,18 +175,68 @@ function BlackFridaySales() {
                     <ScrollItem key={index} onClick={() => {}}>
                       <Image src={item?.images[0]?.filePath} alt="..." />
 
-                      <div className="flex flex-col gap-2 text-start items-start ">
+                      <div className="flex flex-col gap-0.5 text-start items-start ">
                         <Title>{item?.title}</Title>
                         <Reviews>{item?.ratings.length} Reviews</Reviews>
                         <Description>
                           {item?.descriptions[0]?.value}
                         </Description>
-                        <div className="flex flex-col items-start">
+                        <div className="flex flex-row items-start gap-1">
                           <OldPrice style={{ textDecoration: "line-through" }}>
                             #{item?.oldPrice}
                           </OldPrice>
                           <CurrentPrice>#{item?.newPrice}</CurrentPrice>
                         </div>
+
+                        <div className="flex flex-wrap gap-2 items-center text-center">
+                          <Typography variant="white" size="smallerText">
+                            Stretched Length:
+                          </Typography>
+                          <Typography variant="white" size="smallerText">
+                            {inchesType} Inches
+                          </Typography>
+                        </div>
+
+                        <Stack
+                          direction="row"
+                          alignItems="start"
+                          justifyContent="start"
+                          className={
+                            "flex items-start  flex-wrap gap-0.2 max-w-[310px] "
+                          }
+                        >
+                          {item?.categories &&
+                            item?.categories.map((p) => (
+                              <Button
+                                ripple={true}
+                                onClick={() => {
+                                  setInchesType(p);
+                                  setIsStretchedLength(true);
+                                }}
+                              >
+                                <div
+                                  style={{
+                                    border:
+                                      inchesType === p
+                                        ? "1px solid #000000"
+                                        : "0.75px solid #787878",
+                                    padding: "4px 14px",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    borderRadius: "5px",
+                                  }}
+                                >
+                                  <Typography
+                                    variant="white"
+                                    size="smallerText"
+                                  >
+                                    {p} Inches
+                                  </Typography>
+                                </div>
+                              </Button>
+                            ))}
+                        </Stack>
+
                         <div className="flex gap-3 items-center">
                           <OrderNow
                             onClick={() => {
@@ -192,16 +245,28 @@ function BlackFridaySales() {
                           >
                             ORDER NOW
                           </OrderNow>
+
                           {!isItemInCart ? (
-                            <AddToCart
-                              onClick={() => {
-                                dispatch(
-                                  addToCart({ id: item._id, quantity: 1 })
-                                );
-                              }}
-                            >
-                              ADD TO CART
-                            </AddToCart>
+                            !isStretchedLength ? (
+                              <p className="text-white">
+                                {" "}
+                                please select length
+                              </p>
+                            ) : (
+                              <AddToCart
+                                onClick={() => {
+                                  dispatch(
+                                    addToCart({
+                                      id: item._id,
+                                      quantity: 1,
+                                      stretchedLength: inchesType,
+                                    })
+                                  );
+                                }}
+                              >
+                                ADD TO CART
+                              </AddToCart>
+                            )
                           ) : (
                             <p className="notification  text-white  text-[14px] text-center leading-[16px] font-light font-Roboto ">
                               Item added to cart!

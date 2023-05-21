@@ -48,7 +48,7 @@ function ShopAllCollection() {
                   Extensions
                 </h3>
                 <span className="text-[15px] font-normal leading-[20px] text-[#414141] font-Montserrat w-full max-w-[196px] ">
-                  Buy 3 extensions an get 10% Discount
+                  Buy 3 extensions and get 10% Discount
                 </span>
               </div>
 
@@ -102,7 +102,7 @@ function ShopAllCollection() {
                   Extensions
                 </h3>
                 <span className="text-[15px] font-normal leading-[20px] text-[#414141] font-Montserrat w-full max-w-[196px] ">
-                  Buy 3 extensions an get 10% Discount
+                  Buy 3 extensions and get 10% Discount
                 </span>
               </div>
 

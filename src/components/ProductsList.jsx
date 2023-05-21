@@ -10,7 +10,6 @@ import { useGetProducts } from "../redux/product/productSlice";
 const ProductsList = () => {
   const navigate = useNavigate();
   const products = useGetProducts();
-  console.log({ products });
   return (
     <Stack direction="column" alignItems="center" className="gap-10 pt-6">
       {products.map((data, i) => (
@@ -68,7 +67,7 @@ const ProductsList = () => {
               <Button
                 ripple={true}
                 onClick={() => {
-                  navigate(`/category/wigs/description/${data.id}`);
+                  navigate(`/products/info/${data._id}`);
                 }}
               >
                 <div className="px-4 py-4 items-center justify-center text-center bg-[#033514] ">

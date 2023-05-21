@@ -15,20 +15,20 @@ const BillingValidationSchema = Yup.object({
   //   .required("Zip code is required")
   //   .matches(/^\d{5}(?:[-\s]\d{4})?$/, "Invalid zip code"),
   // payment_method: Yup.string().required("Payment method is required"),
-  credit_card: Yup.object({
-    number: Yup.string()
-      .required("Credit card number is required")
-      .matches(/^\d{16}$/, "Invalid credit card number"),
-    exp_month_year: Yup.string().required(
-      "Expiration m/y is required"
-    ),
-    holder_name: Yup.string().required("Holder Name is required"),
-    cvv: Yup.string()
-      .required("CVV is required")
-      .matches(/^\d{3}$/, "Invalid CVV"),
-  }),
+  // credit_card: Yup.object({
+  //   number: Yup.string()
+  //     .required("Credit card number is required")
+  //     .matches(/^\d{16}$/, "Invalid credit card number"),
+  //   exp_month_year: Yup.string().required(
+  //     "Expiration m/y is required"
+  //   ),
+  //   holder_name: Yup.string().required("Holder Name is required"),
+  //   cvv: Yup.string()
+  //     .required("CVV is required")
+  //     .matches(/^\d{3}$/, "Invalid CVV"),
+  // }),
   tel_whatsapp: Yup.string()
-    .matches(/^[+]\d{11,}$/, "Invalid Tel/Whatsapp number, add + ")
+    .matches(/^[+]\d{11,}$/, "Invalid Tel/Whatsapp number ")
     .required("Tel/Whatsapp number is required"),
   orderNotes: Yup.string().max(
     500,

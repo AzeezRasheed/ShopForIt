@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Collection1 from "../../../assets/Collection1.png";
 import { BsFacebook, BsInstagram, BsTwitter, BsYoutube } from "react-icons/bs";
 import {
   AiOutlineHeart,
@@ -10,14 +9,20 @@ import {
 import Button from "../../../components/Button/Button";
 import tw from "twin.macro";
 import styled from "styled-components";
-import DescriptionWigsBottom from "../../../components/DescriptionWigsBottom";
 import Stack from "../../../components/Stack/Stack";
 import Typography from "../../../components/Typography/Typography";
 import { useParams } from "react-router";
 import { getProduct, useGetProduct } from "../../../redux/product/productSlice";
 import { useDispatch } from "react-redux";
-import { addToCart, useGetCart } from "../../../redux/cart/cartSlice";
+import {
+  addToCart,
+  decrementQuantity,
+  incrementQuantity,
+  useGetCart,
+} from "../../../redux/cart/cartSlice";
 import { Circles } from "react-loader-spinner";
+import ProductInfoBottom from "../../../components/ProductInfobottom";
+import { useNavigate } from "react-router-dom";
 
 const SocialMediaLink = styled.a`
   ${tw`
@@ -27,16 +32,21 @@ hover:text-slate-500
 const ProductInfo = () => {
   const dispatch = useDispatch();
   const [inchesType, setInchesType] = useState("select");
+  const [isActiveImage, setActiveImage] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
-  const [quantity, setQuantity] = useState(1);
+  const [isStretchedLength, setIsStretchedLength] = useState(false);
   const [product, setProduct] = useState([]);
   const { id } = useParams();
   const singleProduct = useGetProduct();
+  const navigate = useNavigate();
   const cart = useGetCart();
 
   useEffect(async () => {
+    setIsLoading(true);
+    setProduct([]);
     await dispatch(getProduct(id));
-  }, []);
+    setIsLoading(false);
+  }, [id]);
 
   useEffect(async () => {
     await setProduct(singleProduct);
@@ -47,9 +57,8 @@ const ProductInfo = () => {
 
   const isItemInCart = cart.some((cartItem) => cartItem.id === product?._id);
 
-  // const isItemInCart = cart.find((cartItem) => cartItem.id === product._id);
+  const itemInCart = cart.find((cartItem) => cartItem.id === product?._id);
 
-  // console.log(isItemInCart);
   return (
     <>
       {product?.length < 1 || !product || isLoading ? (
@@ -76,7 +85,7 @@ const ProductInfo = () => {
             >
               <div className="w-[315px] h-[346px] items-center  ">
                 <img
-                  src={product?.images[0]?.filePath}
+                  src={product?.images[isActiveImage]?.filePath}
                   alt="..."
                   className="w-full h-full"
                 />
@@ -87,24 +96,24 @@ const ProductInfo = () => {
                 direction="row"
                 className={"gap-3 flex-wrap mb-2"}
               >
-                <Button ripple={true} onClick={() => {}}>
-                  <div className="w-[51px] h-[51px] items-center  ">
-                    <img
-                      src={product?.images[0]?.filePath}
-                      alt="..."
-                      className="w-full h-full"
-                    />
+                {product?.images.map((image, index) => (
+                  <div key={image._id}>
+                    <Button
+                      ripple={true}
+                      onClick={() => {
+                        setActiveImage(index);
+                      }}
+                    >
+                      <div className="w-[51px] h-[51px] items-center  ">
+                        <img
+                          src={image?.filePath}
+                          alt="..."
+                          className="w-full h-full"
+                        />
+                      </div>
+                    </Button>
                   </div>
-                </Button>
-                <Button ripple={true} onClick={() => {}}>
-                  <div className="w-[51px] h-[51px] items-center  ">
-                    <img
-                      src={product?.images[0]?.filePath}
-                      alt="..."
-                      className="w-full h-full"
-                    />
-                  </div>
-                </Button>
+                ))}
               </Stack>
               <div className="w-full max-w-[313px] h-0 border border-solid border-[#D9D9D9] "></div>
               <div className="flex flex-col text-start items-start gap-2 ">
@@ -143,6 +152,7 @@ const ProductInfo = () => {
               <Typography variant="black" size="heading3">
                 {product?.title}
               </Typography>
+
               <div className="flex flex-wrap gap-3 items-center mb-2">
                 <AiTwotoneStar size={10} />
                 <Typography size="heading6" className=" text-[#F75E54] ">
@@ -184,30 +194,33 @@ const ProductInfo = () => {
                 className={"flex items-start  flex-wrap gap-2"}
               >
                 {product?.categories &&
-                  product?.categories.map((p) => (
-                    <Button
-                      ripple={true}
-                      onClick={() => {
-                        setInchesType(p);
-                      }}
-                    >
-                      <div
-                        style={{
-                          border:
-                            inchesType === p
-                              ? "1px solid #000000"
-                              : "0.75px solid #787878",
-                          padding: "4px 14px",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          borderRadius: "5px",
+                  product?.categories.map((p, index) => (
+                    <div key={index._id}>
+                      <Button
+                        ripple={true}
+                        onClick={() => {
+                          setInchesType(p);
+                          setIsStretchedLength(true);
                         }}
                       >
-                        <Typography variant="black" size="heading6">
-                          {p} Inches
-                        </Typography>
-                      </div>
-                    </Button>
+                        <div
+                          style={{
+                            border:
+                              inchesType === p
+                                ? "1px solid #000000"
+                                : "0.75px solid #787878",
+                            padding: "4px 14px",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            borderRadius: "5px",
+                          }}
+                        >
+                          <Typography variant="black" size="heading6">
+                            {p} Inches
+                          </Typography>
+                        </div>
+                      </Button>
+                    </div>
                   ))}
               </Stack>
 
@@ -231,10 +244,49 @@ const ProductInfo = () => {
               <div className="flex flex-wrap gap-2 items-center ">
                 {/*  */}
                 {!isItemInCart ? (
+                  !isStretchedLength ? (
+                    <p>please select stretched length </p>
+                  ) : (
+                    <Button
+                      ripple={true}
+                      onClick={() => {
+                        dispatch(
+                          addToCart({
+                            id: product?._id,
+                            quantity: 1,
+                            stretchedLength: inchesType,
+                          })
+                        );
+                      }}
+                    >
+                      <div
+                        style={{
+                          border: "1px solid #C0C0C0",
+                          padding: "12px 14px",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          borderRadius: "5px",
+                          backgroundColor: "#033514",
+                        }}
+                      >
+                        <Typography variant="white" size="heading6">
+                          Add to cart
+                        </Typography>
+                      </div>
+                    </Button>
+                  )
+                ) : (
+                  <p className="notification  text-black  text-[14px] text-center leading-[16px] font-light font-Roboto ">
+                    Item added to cart!
+                  </p>
+                )}
+
+                {/*  */}
+                {isItemInCart && (
                   <Button
                     ripple={true}
                     onClick={() => {
-                      dispatch(addToCart({ id: product?._id, quantity: 1 }));
+                      navigate(`/checkout`);
                     }}
                   >
                     <div
@@ -244,22 +296,18 @@ const ProductInfo = () => {
                         alignItems: "center",
                         justifyContent: "center",
                         borderRadius: "5px",
-                        backgroundColor: "#033514",
+                        backgroundColor: "#262626",
                       }}
                     >
                       <Typography variant="white" size="heading6">
-                        Add to cart
+                        Buy Now
                       </Typography>
                     </div>
                   </Button>
-                ) : (
-                  <p className="notification  text-black  text-[14px] text-center leading-[16px] font-light font-Roboto ">
-                    Item added to cart!
-                  </p>
                 )}
 
-                {/*  */}
-                <Button ripple={true} onClick={() => {}}>
+                {/* increament and decreament button */}
+                {isItemInCart && (
                   <div
                     style={{
                       border: "1px solid #C0C0C0",
@@ -267,38 +315,32 @@ const ProductInfo = () => {
                       alignItems: "center",
                       justifyContent: "center",
                       borderRadius: "5px",
-                      backgroundColor: "#262626",
                     }}
                   >
-                    <Typography variant="white" size="heading6">
-                      Buy Now
-                    </Typography>
-                  </div>
-                </Button>
+                    <div className="flex flex-wrap gap-2 items-center">
+                      <Button
+                        ripple={true}
+                        onClick={() => {
+                          dispatch(decrementQuantity(itemInCart?.id));
+                        }}
+                      >
+                        <AiOutlineMinus size={12} color="#000000" />
+                      </Button>
 
-                {/*  */}
-                <div
-                  style={{
-                    border: "1px solid #C0C0C0",
-                    padding: "12px 14px",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    borderRadius: "5px",
-                  }}
-                >
-                  <div className="flex flex-wrap gap-2 items-center">
-                    <Button ripple={true} onClick={() => {}}>
-                      <AiOutlineMinus size={12} color="#000000" />
-                    </Button>
-
-                    <Typography variant="black" size="heading6">
-                      {quantity}
-                    </Typography>
-                    <Button ripple={true} onClick={() => {}}>
-                      <AiOutlinePlus size={12} color="#000000" />
-                    </Button>
+                      <Typography variant="black" size="heading6">
+                        {itemInCart?.quantity ? itemInCart?.quantity : 1}
+                      </Typography>
+                      <Button
+                        ripple={true}
+                        onClick={() => {
+                          dispatch(incrementQuantity(itemInCart?.id));
+                        }}
+                      >
+                        <AiOutlinePlus size={12} color="#000000" />
+                      </Button>
+                    </div>
                   </div>
-                </div>
+                )}
 
                 {/*  */}
                 <AiOutlineHeart size={20} color="#000000" />
@@ -311,7 +353,7 @@ const ProductInfo = () => {
           </Stack>
 
           {/* This is the Tab that is at the bottom */}
-          <DescriptionWigsBottom />
+          <ProductInfoBottom product={product} />
         </Stack>
       )}
     </>

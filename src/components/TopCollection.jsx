@@ -106,7 +106,7 @@ function TopCollection() {
         </div>
       ) : (
         <div className="justify-center align-middle flex items-center m-auto w-full h-full ">
-          <div className="flex flex-wrap gap-6 items-center justify-center w-full ">
+          <div className="flex flex-wrap gap-6 items-baseline justify-center w-full ">
             {filteredProduct && (
               <>
                 {filteredProduct.map((data, i) => (

@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import Stack from "./Stack/Stack";
 import Button from "./Button/Button";
-import Typography from "./Typography/Typography";
-import Description from "./DescriptionWigsCategory/Description";
-import AdditionalInformation from "./DescriptionWigsCategory/AdditionalInformation";
-import Reviews from "./DescriptionWigsCategory/Reviews";
+import Description from "./ProductButtomCategory/Description";
+import AdditionalInformation from "./ProductButtomCategory/AdditionalInformation";
+import Reviews from "./ProductButtomCategory/Reviews";
 
 const tabs = [
   { name: "Description", id: "description" },
@@ -12,7 +11,7 @@ const tabs = [
   { name: "Reviews", id: "reviews" },
 ];
 
-const DescriptionWigsBottom = () => {
+const ProductInfoBottom = ({ product }) => {
   const [tab, setTab] = useState("description");
 
   const Tab = () =>
@@ -44,11 +43,11 @@ const DescriptionWigsBottom = () => {
   const TabPanel = () => {
     switch (tab) {
       case "description":
-        return <Description />;
+        return <Description product={product} />;
       case "additional information":
-        return <AdditionalInformation />;
+        return <AdditionalInformation product={product} />;
       default:
-        return <Reviews />;
+        return <Reviews product={product} />;
     }
   };
   return (
@@ -73,4 +72,4 @@ const DescriptionWigsBottom = () => {
   );
 };
 
-export default DescriptionWigsBottom;
+export default ProductInfoBottom;

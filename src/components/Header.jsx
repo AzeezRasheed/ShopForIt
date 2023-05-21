@@ -50,57 +50,68 @@ function Header() {
         backgroundColor: pathname === "/" ? "#041706" : "#FFFFFF",
       }}
     >
-      {isModalOpen && (
-        <ModalContactUs open={isModalOpen} setOpen={setModalOpen} />
-      )}
-      <InnerWrapper>
-        <div>
-          <SocialMediaWrapper>
-            <SocialMediaAction href="/">
-              <BsInstagram />
-              <span className="sr-only">Instagram page</span>
-            </SocialMediaAction>
-
-            <SocialMediaAction href="/">
-              <BsTwitter />
-              <span className="sr-only">Twitter page</span>
-            </SocialMediaAction>
-            <SocialMediaAction href="/">
-              <BsFacebook />
-              <span className="sr-only">Facebook page</span>
-            </SocialMediaAction>
-
-            <SocialMediaAction href="/">
-              <BsYoutube />
-              <span className="sr-only">Youtube account</span>
-            </SocialMediaAction>
-          </SocialMediaWrapper>
+      {location.pathname !== "/" ? (
+        <div className="relative overflow-hidden">
+          <div className=" top-0 left-0 w-full h-full animate-slideLeft  text-black">
+            shopforit exclusive official e-shop. Any concerns please contact
+            care.ng@shopforit.org
+          </div>
         </div>
-        <div className="hidden lg:block text-center flex-1 items-center justify-center  ">
-          <div>
+      ) : (
+        <>
+          {isModalOpen && (
+            <ModalContactUs open={isModalOpen} setOpen={setModalOpen} />
+          )}
+          <InnerWrapper>
             <div>
-              <TITLE
+              <SocialMediaWrapper>
+                <SocialMediaAction href="/">
+                  <BsInstagram />
+                  <span className="sr-only">Instagram page</span>
+                </SocialMediaAction>
+
+                <SocialMediaAction href="/">
+                  <BsTwitter />
+                  <span className="sr-only">Twitter page</span>
+                </SocialMediaAction>
+                <SocialMediaAction href="/">
+                  <BsFacebook />
+                  <span className="sr-only">Facebook page</span>
+                </SocialMediaAction>
+
+                <SocialMediaAction href="/">
+                  <BsYoutube />
+                  <span className="sr-only">Youtube account</span>
+                </SocialMediaAction>
+              </SocialMediaWrapper>
+            </div>
+            <div className="hidden lg:block text-center flex-1 items-center justify-center  ">
+              <div>
+                <div>
+                  <TITLE
+                    style={{
+                      color: pathname === "/" ? "#FFFFFF" : "#000000",
+                    }}
+                  >
+                    Free Shipping for most week order!!
+                  </TITLE>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <Button
+                onClick={() => setModalOpen(true)}
                 style={{
                   color: pathname === "/" ? "#FFFFFF" : "#000000",
                 }}
               >
-                Free Shipping for most week order!!
-              </TITLE>
+                contact@shopforit.com
+              </Button>
             </div>
-          </div>
-        </div>
-
-        <div>
-          <Button
-            onClick={() => setModalOpen(true)}
-            style={{
-              color: pathname === "/" ? "#FFFFFF" : "#000000",
-            }}
-          >
-            contact@shopforit.com
-          </Button>
-        </div>
-      </InnerWrapper>
+          </InnerWrapper>
+        </>
+      )}
     </Container>
   );
 }

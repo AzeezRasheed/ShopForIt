@@ -90,6 +90,11 @@ function Navbar() {
   const cart = useGetCart();
   const cartTotal = cart.length;
   const navigate = useNavigate();
+
+  const goBack = () => {
+    navigate(-1);
+  };
+
   useEffect(() => {
     dispatch(FILTER_PRODUCTS({ products, search }));
   }, [products, dispatch, search]);
@@ -155,7 +160,13 @@ function Navbar() {
                             All categories
                             <BiChevronDown
                               size={25}
-                              className="ml-2 -mr-1 h-5 w-5 text-white hover:text-violet-100"
+                              className={`ml-2 -mr-1 h-5 w-5 text-${
+                                pathname === "/" ? "#FFFFFF" : "#000000"
+                              } hover:${
+                                pathname === "/"
+                                  ? "text-violet-100"
+                                  : "text-zinc-700"
+                              }`}
                             />
                           </Menu.Button>
                         </div>
@@ -247,6 +258,10 @@ function Navbar() {
                         <div className="origin-top-right absolute right-0 mt-2 w-full rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
                           <div className="py-1">
                             {filteredProducts.map((product) => {
+                              const formattedCategories =
+                                product?.categories?.map(
+                                  (categories) => `${categories} Inches  `
+                                );
                               return (
                                 <div key={product?._id}>
                                   <button
@@ -257,9 +272,9 @@ function Navbar() {
                                       setSearch("");
                                     }}
                                     className={`
-                                  hover:bg-gray-100 hover:text-gray-900 "text-gray-700" flex items-center flex-row w-full px-4 py-2 text-sm`}
+                                  hover:bg-gray-100 hover:text-gray-900 "text-gray-700" flex items-start text-start justify-start flex-row w-full px-4 py-2 text-sm`}
                                   >
-                                    {product.title}
+                                    {product?.title} {} {} {formattedCategories} {}
                                   </button>
                                 </div>
                               );
@@ -367,12 +382,22 @@ function Navbar() {
             </INNERWRAPPER>
           ) : (
             <Stack justifyContent="spacebetween" direction="row">
-              <Button onClick={() => {}} ripple={true}>
+              <Button
+                onClick={() => {
+                  navigate("/");
+                }}
+                ripple={true}
+              >
                 <Typography as={"h3"} variant="black" size="bodySmall">
-                  Home/Wigs
+                  Home
                 </Typography>
               </Button>
-              <Button onClick={() => {}} ripple={true}>
+              <Button
+                onClick={() => {
+                  goBack();
+                }}
+                ripple={true}
+              >
                 <Stack direction="row" className="gap-1">
                   <AiOutlineLeft size={10} />
                   <Typography as={"h3"} variant="black" size="bodySmall">

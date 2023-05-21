@@ -7,12 +7,18 @@ import { Field, Formik, useFormik } from "formik";
 import { Checkbox, FormControl } from "@mui/material";
 import { City, Country, State } from "country-state-city";
 import Select from "react-select";
-import Collection1 from "../../assets/Collection1.png";
 import BillingValidationSchema from "../../utils/YupSchemaValidation/BillingDetails";
 import { BsCreditCardFill } from "react-icons/bs";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import PaymentMethodLogo from "../../assets/PaymentMethod.svg";
 import { ACCOUNT_NAME, BANK_NAME, BANK_NUMBER } from "../../constant/constant";
+import { useGetCart } from "../../redux/cart/cartSlice";
+import { toast } from "react-toastify";
+import axios from "axios";
+import { Circles } from "react-loader-spinner";
+import { SET_BILLING_DETAILS } from "../../redux/order/orderSlice";
+import { useDispatch } from "react-redux";
+
 const initialValues = {
   firstname: "",
   lastname: "",
@@ -26,20 +32,60 @@ const initialValues = {
   //   payment_method: "",
   tel_whatsapp: "",
   orderNotes: "",
-  credit_card: {
-    number: "",
-    exp_month_year: "",
-    holder_name: "",
-    cvv: "",
-  },
+  // credit_card: {
+  //   number: "",
+  //   exp_month_year: "",
+  //   holder_name: "",
+  //   cvv: "",
+  // },
 };
 
 const Checkout = () => {
-  const [isChecked, setIsChecked] = useState(false);
+  const dispatch = useDispatch();
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
+  const [products, setProducts] = useState([]);
   const [isNextTab, setIsNextTab] = useState(false);
+  const [isChecked, setIsChecked] = useState(false);
   const [isNextTabSetAlready, setIsNextTabSetAlready] = useState(false);
+
+  const cartItems = useGetCart();
+  const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+
+  const getProduct = async (id) => {
+    try {
+      const response = await axios.get(`${BACKEND_URL}/api/v1/products/${id}`);
+      return response.data;
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      toast.error(message);
+    }
+  };
+
+  useEffect(async () => {
+    const fetchedProducts = [];
+
+    try {
+      for (const cartItem of cartItems) {
+        const product = await getProduct(cartItem.id);
+        fetchedProducts.push({
+          ...product,
+          quantity: cartItem.quantity,
+          stretchedLength: cartItem.stretchedLength,
+        });
+      }
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    }
+
+    // console.log("Fetched products:", fetchedProducts);
+    setProducts(fetchedProducts);
+  }, [cartItems]);
 
   const onSubmit = (values, actions) => {
     console.log(values);
@@ -71,7 +117,6 @@ const Checkout = () => {
 
   useEffect(() => {
     if (values.country) {
-      console.log(values.country);
       const states = State.getStatesOfCountry(values.country).map((state) => ({
         label: state.name,
         value: state.name,
@@ -123,7 +168,7 @@ const Checkout = () => {
     values.tel_whatsapp,
   ]);
 
-  console.log(isValid);
+  // console.log(isValid);
   const [showPassword, setShowPassword] = useState(false);
   const [sliders, setSliders] = useState([]);
   const slider = [
@@ -741,10 +786,12 @@ const Checkout = () => {
                         value={values.country ? values.country.isoCode : ""}
                         options={updatedCountries}
                         onChange={(value) => {
-                          setValues(
-                            { country: value.isoCode, state: null, city: null },
-                            false
-                          );
+                          setValues((prevValues) => ({
+                            ...prevValues,
+                            country: value.isoCode,
+                            state: null,
+                            city: null,
+                          }));
                           console.log(values.country);
                         }}
                         error={touched.country && Boolean(errors.country)}
@@ -790,10 +837,11 @@ const Checkout = () => {
                         value={values.state ? values.state.isoCode : ""}
                         options={states}
                         onChange={(value) => {
-                          setValues(
-                            { ...values, state: value.isoCode, city: null },
-                            false
-                          );
+                          setValues((prevValues) => ({
+                            ...prevValues,
+                            state: value.isoCode,
+                            city: null,
+                          }));
                         }}
                         error={touched.state && Boolean(errors.state)}
                         onBlur={handleBlur}
@@ -926,7 +974,7 @@ const Checkout = () => {
                       className="border flex border-solid border-[#C0C0C0] bg-[#FFFFFF] rounded-[3px] py-[12px] px-[16px] w-full    "
                       id="tel_whatsapp"
                       name={`tel_whatsapp`}
-                      type="tel"  
+                      type="tel"
                       value={values.tel_whatsapp}
                       onChange={handleChange}
                       error={
@@ -991,95 +1039,111 @@ const Checkout = () => {
             )}
 
             {/* Right */}
-            <Stack
-              direction="column"
-              alignItems="center"
-              className={"w-full max-w-[343px] gap-6 "}
-            >
-              <div className="border-y border-y-[#A7A7A7] p-4 w-full max-w-[343px] ">
-                <div className="flex flex-wrap gap-3 items-center justify-center text-center ">
-                  <div
-                    style={{
-                      padding: "4px",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      // marginBottom: "6px",
-                      border: "1px solid #EDE1E1",
-                      position: "relative",
-                    }}
-                  >
-                    <div className="w-[72.69px] h-[71.14px] items-center  ">
-                      <img
-                        src={Collection1}
-                        alt="..."
-                        className="w-full h-full"
-                      />
-                    </div>
-                  </div>
-                  <div className="flex flex-col gap-1 items-start text-start ">
-                    <Typography variant="black" size="heading6">
-                      Curly Hair Extensions
-                    </Typography>
-                    <span className=" text-[#079627] text-[12px] leading-[16px] font-normal font-Roboto ">
-                      ₦ 63,235
-                    </span>
-                    <span className=" text-[#CFCFCF] text-[12px] leading-[16px] font-normal font-Roboto ">
-                      Qty: 1
-                    </span>
-                  </div>
-                </div>
+
+            {products.length < 1 ? (
+              <div className="items-center py-3 mx-auto flex ">
+                <Circles color="#191D27" height="100" width="100" visible />
               </div>
+            ) : (
+              <Stack
+                direction="column"
+                alignItems="center"
+                className={"w-full max-w-[343px] gap-6 "}
+              >
+                {products.map((product, index) => {
+                  return (
+                    <div className="border-y border-y-[#A7A7A7] p-4 w-full max-w-[343px] ">
+                      <div className="flex flex-wrap gap-3 items-start justify-start text-center ">
+                        <div
+                          style={{
+                            padding: "4px",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            // marginBottom: "6px",
+                            border: "1px solid #EDE1E1",
+                            position: "relative",
+                          }}
+                        >
+                          <div className="w-[72.69px] h-[71.14px] items-center  ">
+                            <img
+                              src={product?.images[0]?.filePath}
+                              alt="..."
+                              className="w-full h-full"
+                            />
+                          </div>
+                        </div>
+                        <div className="flex flex-col gap-1 items-start text-start ">
+                          <Typography variant="black" size="heading6">
+                            {product?.title}
+                          </Typography>
+                          <span className=" text-[#079627] text-[12px] leading-[16px] font-normal font-Roboto ">
+                            #{product?.newPrice}
+                          </span>
+                          <span className=" text-[#CFCFCF] text-[12px] leading-[16px] font-normal font-Roboto ">
+                            Qty: {product?.quantity}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
 
-              <Stack direction="column" alignItems="center" className={`gap-4`}>
                 <Stack
-                  direction="row"
+                  direction="column"
                   alignItems="center"
-                  justifyContent="spacebetween"
-                  className={`flex-wrap gap-2 text-center `}
+                  className={`gap-4`}
                 >
-                  <Typography variant="black" size="lightText">
-                    Cart Subtotal:
-                  </Typography>
-                  <span className=" text-[#000000] text-[18px] leading-[160%] font-normal font-Roboto ">
-                    ₦ 6,990
-                  </span>
-                </Stack>
-                <Stack
-                  direction="row"
-                  alignItems="center"
-                  justifyContent="spacebetween"
-                  className={`flex-wrap gap-2 text-center `}
-                >
-                  <Typography variant="black" size="lightText">
-                    Delivery Fee
-                  </Typography>
-                  <span className=" text-[#000000] text-[18px] leading-[160%] font-normal font-Roboto ">
-                    ₦ 6,990
-                  </span>
-                </Stack>
-                <Stack
-                  direction="row"
-                  alignItems="center"
-                  justifyContent="spacebetween"
-                  className={`flex-wrap gap-2 text-center `}
-                >
-                  <Typography variant="black" size="lightText">
-                    Order Total
-                  </Typography>
-                  <span className=" text-[#000000] text-[18px] leading-[160%] font-normal font-Roboto ">
-                    ₦ 6,990
-                  </span>
-                </Stack>
-
-                <Button ripple onClick={() => {}} className="w-full  ">
-                  <div className="px-[115px] py-4 w-full  bg-[#033514] rounded-[5px] items-center text-center ">
-                    <Typography variant="white" size="buttons">
-                      Complete Order
+                  <Stack
+                    direction="row"
+                    alignItems="center"
+                    justifyContent="spacebetween"
+                    className={`flex-wrap gap-2 text-center `}
+                  >
+                    <Typography variant="black" size="lightText">
+                      Cart Subtotal:
                     </Typography>
-                  </div>
-                </Button>
+                    <span className=" text-[#000000] text-[18px] leading-[160%] font-normal font-Roboto ">
+                      ₦ 6,990
+                    </span>
+                  </Stack>
+                  <Stack
+                    direction="row"
+                    alignItems="center"
+                    justifyContent="spacebetween"
+                    className={`flex-wrap gap-2 text-center `}
+                  >
+                    <Typography variant="black" size="lightText">
+                      Delivery Fee
+                    </Typography>
+                    <span className=" text-[#000000] text-[18px] leading-[160%] font-normal font-Roboto ">
+                      ₦ 6,990
+                    </span>
+                  </Stack>
+                  <Stack
+                    direction="row"
+                    alignItems="center"
+                    justifyContent="spacebetween"
+                    className={`flex-wrap gap-2 text-center `}
+                  >
+                    <Typography variant="black" size="lightText">
+                      Order Total
+                    </Typography>
+                    <span className=" text-[#000000] text-[18px] leading-[160%] font-normal font-Roboto ">
+                      ₦ 6,990
+                    </span>
+                  </Stack>
+                  {isNextTabSetAlready && (
+                    <Button ripple onClick={() => {}} className="w-full  ">
+                      <div className="px-[115px] py-4 w-full  bg-[#033514] rounded-[5px] items-center text-center ">
+                        <Typography variant="white" size="buttons">
+                          Complete Order
+                        </Typography>
+                      </div>
+                    </Button>
+                  )}
+                </Stack>
               </Stack>
-            </Stack>
+            )}
           </Stack>
           {!isNextTab && (
             <Stack
@@ -1090,7 +1154,10 @@ const Checkout = () => {
               <Button
                 ripple
                 onClick={() => {
-                  isNextTabSetAlready && setIsNextTab(true);
+                  if (isNextTabSetAlready) {
+                    setIsNextTab(true);
+                    dispatch(SET_BILLING_DETAILS(values));
+                  }
                 }}
                 className="w-full  "
               >
