@@ -11,7 +11,6 @@ const createProduct = async (formData) => {
 
 const getProducts = async () => {
   const response = await axios.get(`${BACKEND_URL}/api/v1/products/`);
-  console.log(response.data)
   return response.data;
 };
 

@@ -28,17 +28,16 @@ function Login() {
     // Submit form logic here
     try {
       const data = await LOGIN_USER(values);
-      console.log(values);
       await dispatch(SET_USER(data));
 
-      await dispatch(SET_FIRSTNAME(data.firstname));
+      await dispatch(SET_FIRSTNAME(data?.firstname));
       await dispatch(SET_LOGIN(true));
 
       // Store the bearer token in local storage
-      localStorage.setItem("token", data.token);
+      localStorage.setItem("token", data?.token);
 
       // Set the default Authorization header for Axios requests
-      axios.defaults.headers.common["Authorization"] = `Bearer ${data.token}`;
+      axios.defaults.headers.common["Authorization"] = `Bearer ${data?.token}`;
 
       navigate("/");
       setIsLoading(false);

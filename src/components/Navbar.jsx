@@ -5,7 +5,7 @@ import LogoWhite from "../assets/SHOP FOR IT.png";
 import LogoBlack from "../assets/LogoBlack.png";
 import { Menu, Transition } from "@headlessui/react";
 import { BiChevronDown } from "react-icons/bi";
-import { FiSearch } from "react-icons/fi";
+import { FiLogIn, FiSearch } from "react-icons/fi";
 import { AiOutlineHeart, AiOutlineLeft } from "react-icons/ai";
 import { HiOutlineShoppingCart } from "react-icons/hi";
 import { FiUser } from "react-icons/fi";
@@ -15,14 +15,16 @@ import Typography from "./Typography/Typography";
 import Stack from "./Stack/Stack";
 import { Drawer } from "@mui/material";
 import DrawerRight from "./DrawerRight";
-import { useIsUserLoggedIn } from "../redux/auth/authSlice";
+import { useIsUserLoggedIn, useUserData } from "../redux/auth/authSlice";
 import { useGetProducts } from "../redux/product/productSlice";
+import { RiDashboardLine } from "react-icons/ri";
 import {
   FILTER_PRODUCTS,
   useSelectFilteredProducts,
 } from "../redux/product/filterSlice";
 import { useDispatch } from "react-redux";
 import { useGetCart } from "../redux/cart/cartSlice";
+import { IS_LOGGEDIN } from "../services/authServices";
 const CONTAINER = styled.div`
   ${tw`
   flex flex-col w-full
@@ -84,12 +86,17 @@ function Navbar() {
   const location = useLocation();
   const pathname = location.pathname;
   const isLoggedIn = useIsUserLoggedIn();
+
+  console.log(isLoggedIn);
   const dispatch = useDispatch();
   const products = useGetProducts();
   const filteredProducts = useSelectFilteredProducts();
   const cart = useGetCart();
   const cartTotal = cart.length;
   const navigate = useNavigate();
+
+  const userData = useUserData();
+  const isAdmin = userData?.isAdmin;
 
   const goBack = () => {
     navigate(-1);
@@ -274,7 +281,8 @@ function Navbar() {
                                     className={`
                                   hover:bg-gray-100 hover:text-gray-900 "text-gray-700" flex items-start text-start justify-start flex-row w-full px-4 py-2 text-sm`}
                                   >
-                                    {product?.title} {} {} {formattedCategories} {}
+                                    {product?.title} {} {} {formattedCategories}{" "}
+                                    {}
                                   </button>
                                 </div>
                               );
@@ -323,7 +331,8 @@ function Navbar() {
                     </div>
                   </ICONBUTTON>
                 </Button>
-                {isLoggedIn && (
+
+                {isLoggedIn ? (
                   <Button ripple={true} onClick={() => {}}>
                     <ICONBUTTON
                       style={{
@@ -331,6 +340,38 @@ function Navbar() {
                       }}
                     >
                       <FiUser size={22} />
+                    </ICONBUTTON>
+                  </Button>
+                ) : (
+                  <Button
+                    ripple={true}
+                    onClick={() => {
+                      navigate("/auth/login");
+                    }}
+                  >
+                    <ICONBUTTON
+                      style={{
+                        color: pathname === "/" ? "#FFFFFF" : "#000000",
+                      }}
+                    >
+                      <FiLogIn size={22} />
+                    </ICONBUTTON>
+                  </Button>
+                )}
+
+                {isLoggedIn && isAdmin && (
+                  <Button
+                    ripple={true}
+                    onClick={() => {
+                      navigate("/admin/dashboard");
+                    }}
+                  >
+                    <ICONBUTTON
+                      style={{
+                        color: pathname === "/" ? "#FFFFFF" : "#000000",
+                      }}
+                    >
+                      <RiDashboardLine size={22} />
                     </ICONBUTTON>
                   </Button>
                 )}

@@ -2,7 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 import { useSelector } from "react-redux";
 
 const firstname = localStorage.getItem("firstname");
-const parsedFirstname = firstname ? JSON.parse(firstname) : null;
+const parsedFirstname =
+  firstname && firstname !== undefined ? JSON.parse(firstname) : null;
 const initialState = {
   isLoggedIn: false,
   firstname: parsedFirstname ? parsedFirstname : "",

@@ -39,7 +39,7 @@ px-6 py-4 text-[#000000] text-start border border-[#CFCFCF]
 const Description = ({ product }) => {
   return (
     <div className="relative overflow-x-auto">
-      {product && product?.additionalInfo ? (
+      {product && product?.descriptions ? (
         <Table>
           <TableHead
             style={{

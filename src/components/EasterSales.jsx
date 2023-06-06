@@ -132,7 +132,6 @@ function EasterSales() {
     }
     return filteredCollection;
   }, [products]);
-  console.log({ filteredProduct });
 
   return (
     <Container>

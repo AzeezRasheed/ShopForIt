@@ -19,6 +19,7 @@ export const createProduct = createAsyncThunk(
   "product/create",
   async (formData, thunkApi) => {
     try {
+      console.log({ formData });
       return await productService.createProduct(formData);
     } catch (error) {
       const message =
@@ -130,7 +131,6 @@ const productSlice = createSlice({
         state.isError = false;
         state.errorMessage = null;
         state.products = action.payload;
-        console.log(action.payload);
       })
       .addCase(getProducts.rejected, (state, action) => {
         state.isLoading = false;

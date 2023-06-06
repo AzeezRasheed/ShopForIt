@@ -14,17 +14,14 @@ function Home() {
   );
 
   useEffect(async () => await dispatch(getProducts()), []);
-  
+
   useEffect(async () => {
-    const isLoggedIn = await IS_LOGGEDIN();
-    console.log(isLoggedIn);
 
     if (isError) {
       console.log(message);
     }
   }, [, isError, message, dispatch]);
 
-  console.log(products);
   return (
     <>
       <HeroSection />

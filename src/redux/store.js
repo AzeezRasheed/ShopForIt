@@ -4,6 +4,7 @@ import productSlice from "./product/productSlice";
 import filterSlice from "./product/filterSlice";
 import cartSlice from "./cart/cartSlice";
 import orderSlice from "./order/orderSlice";
+import inputBooleanSlice from "./inputBoolean/inputBooleanSlice";
 const store = configureStore({
   reducer: {
     auth: authSlice,
@@ -11,6 +12,7 @@ const store = configureStore({
     filter: filterSlice,
     cart: cartSlice,
     order: orderSlice,
+    inputBoolean:inputBooleanSlice
   },
 });
 

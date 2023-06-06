@@ -37,7 +37,6 @@ function TopCollection() {
   const [filteredProduct, setFilteredProduct] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const products = useGetProducts();
-  console.log({ products });
   useEffect(() => {
     const filteredCollection = products.filter((product) =>
       product.collections.toLowerCase().includes(collection.toLowerCase())
