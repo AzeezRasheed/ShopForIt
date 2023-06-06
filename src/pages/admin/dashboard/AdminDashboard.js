@@ -187,9 +187,9 @@ const AdminDashboard = () => {
               <Box
                 label="Extensions"
                 color="#D9DAF5"
-                number={accessoriesLength}
+                number={extensionsLength}
               />
-              <Box label="Assories" color="#BCBDF5" number={extensionsLength} />
+              <Box label="Accessories" color="#BCBDF5" number={accessoriesLength} />
             </Stack>
           </Stack>
           <div className="  bg-[#F7FEFF] max-w-[300px] rounded-[12px] items-center px-4 py-3 gap-2 mb-6">
