@@ -95,7 +95,7 @@ const AdminDashboard = () => {
     localStorage.removeItem("token");
     await logoutUser();
     dispatch(SET_LOGIN(false));
-    navigate("/auth/login");
+    navigate("/");
   };
 
   // const isLoggedIn = useSelector(selectIsLoggedIn());
