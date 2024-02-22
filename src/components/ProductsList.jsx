@@ -1,6 +1,5 @@
 import React from "react";
 import Stack from "./Stack/Stack";
-import categoryData from "../data/categoryData";
 import Typography from "./Typography/Typography";
 import { AiOutlineHeart } from "react-icons/ai";
 import Button from "./Button/Button";

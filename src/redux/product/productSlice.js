@@ -149,7 +149,6 @@ const productSlice = createSlice({
         state.isError = false;
         state.errorMessage = null;
         state.product = action.payload;
-        console.log(action.payload);
       })
       .addCase(getProduct.rejected, (state, action) => {
         state.isLoading = false;
@@ -211,4 +210,8 @@ export function useGetProduct() {
 
 export function useGetProducts() {
   return useSelector((state) => state.product.products);
+}
+
+export function useIsError() {
+  return useSelector((state) => state.product.isError);
 }

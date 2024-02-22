@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import tw from "twin.macro";
-import TopCollectionData from "./TopCollectionData";
 import { useGetProducts } from "../redux/product/productSlice";
 import { Circles } from "react-loader-spinner";
 
@@ -46,7 +45,7 @@ function TopCollection() {
       setIsLoading(false);
     }
     return filteredCollection;
-  }, [collection, products]);
+  }, [collection, products, filteredProduct]);
 
   return (
     <OURTOPCOLLECTION>
@@ -101,7 +100,12 @@ function TopCollection() {
 
       {isLoading ? (
         <div className="items-center text-center m-auto flex justify-center ">
-          <Circles color="#FFFFFF" height="100" width="100" visible />
+          <InfinitySpin
+            visible={true}
+            width="200"
+            color="#4fa94d"
+            ariaLabel="infinity-spin-loading"
+          />{" "}
         </div>
       ) : (
         <div className="justify-center align-middle flex items-center m-auto w-full h-full ">

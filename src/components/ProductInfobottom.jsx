@@ -4,10 +4,11 @@ import Button from "./Button/Button";
 import Description from "./ProductButtomCategory/Description";
 import AdditionalInformation from "./ProductButtomCategory/AdditionalInformation";
 import Reviews from "./ProductButtomCategory/Reviews";
+import ShippingAndReturns from "./ProductButtomCategory/ShippingAndReturns";
 
 const tabs = [
   { name: "Description", id: "description" },
-  { name: "Additional Information", id: "additional information" },
+  { name: "Shipping And Returns", id: "shipping and returns" },
   { name: "Reviews", id: "reviews" },
 ];
 
@@ -46,6 +47,8 @@ const ProductInfoBottom = ({ product }) => {
         return <Description product={product} />;
       case "additional information":
         return <AdditionalInformation product={product} />;
+      case "shipping and returns":
+        return <ShippingAndReturns />;
       default:
         return <Reviews product={product} />;
     }
@@ -53,14 +56,14 @@ const ProductInfoBottom = ({ product }) => {
   return (
     <Stack
       direction="column"
-      alignItems="start"
-      justifyContent="start"
-      className={"gap-8 max-w-[1098px] border-t border-t-[#D9D9D9] "}
+      alignItems="center"
+      justifyContent="center"
+      className={"gap-8 max-w-[1098px] "}
     >
       <Stack
         direction="row"
-        alignItems="start"
-        justifyContent="start"
+        alignItems="center"
+        justifyContent="center"
         className={"gap-3  mt-6 relative z-10 "}
       >
         {Tab()}

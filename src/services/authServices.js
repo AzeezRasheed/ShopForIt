@@ -14,6 +14,9 @@ export const REGISTER_USER = async (formData) => {
     if (response.status === 200) {
       toast.success("Successfully Registered User");
     }
+    if (response.data.token) {
+      localStorage.setItem("user", JSON.stringify(response.data));
+    }
     return response.data;
   } catch (error) {
     const message =
@@ -32,7 +35,9 @@ export const LOGIN_USER = async (formData) => {
     if (response.status === 200) {
       toast.success("Welcome ☺️");
     }
-    console.log(response.data);
+    if (response.data.token) {
+      localStorage.setItem("user", JSON.stringify(response.data));
+    }
     return response.data;
   } catch (error) {
     const message =

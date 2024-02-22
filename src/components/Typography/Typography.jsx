@@ -21,6 +21,7 @@ const Typography = ({
     heading4: "font-extrabold text-[24px] leading-[130%] font-Montserrat  ",
     heading5: "font-extrabold text-[20px] leading-[130%] font-Montserrat  ",
     heading6: "font-normal text-[16px] leading-[130%] font-Montserrat",
+    heading6Bold: "font-bold text-[16px] leading-[130%] font-Montserrat",
     leadParagraph: "font-normal text-[22px] leading-[150%] font-Roboto ",
     bodyLarge: "font-normal text-[20px] leading-[170%] font-Roboto ",
     bodyMedium: "font-bold text-[18px] leading-[160%] font-Roboto ",

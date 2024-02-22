@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  getProducts,
-  useGetProducts,
-} from "../../../redux/product/productSlice";
+import { getProducts } from "../../../redux/product/productSlice";
 import { useDispatch, useSelector } from "react-redux";
 import ProductList from "../../../components/Admin/Product/ProductList";
 import ProductSummary from "../../../components/Admin/Product/ProductSummary";
@@ -12,12 +9,7 @@ import Typography from "../../../components/Typography/Typography";
 import styled from "styled-components";
 import tw from "twin.macro";
 import { FiFolder } from "react-icons/fi";
-import {
-  SET_LOGIN,
-  useFistname,
-  useIsUserLoggedIn,
-} from "../../../redux/auth/authSlice";
-import { json, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { logoutUser } from "../../../services/authServices";
 import Spinner from "../../../components/Loader/Spinner";
 
@@ -94,7 +86,6 @@ const AdminDashboard = () => {
     localStorage.removeItem("firstname");
     localStorage.removeItem("token");
     await logoutUser();
-    dispatch(SET_LOGIN(false));
     navigate("/");
   };
 
@@ -189,7 +180,11 @@ const AdminDashboard = () => {
                 color="#D9DAF5"
                 number={extensionsLength}
               />
-              <Box label="Accessories" color="#BCBDF5" number={accessoriesLength} />
+              <Box
+                label="Accessories"
+                color="#BCBDF5"
+                number={accessoriesLength}
+              />
             </Stack>
           </Stack>
           <div className="  bg-[#F7FEFF] max-w-[300px] rounded-[12px] items-center px-4 py-3 gap-2 mb-6">

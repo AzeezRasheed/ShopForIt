@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { SET_USER } from "../../../redux/auth/authSlice";
-import { SET_FIRSTNAME } from "../../../redux/auth/authSlice";
 import Spinner from "../../../components/Loader/Spinner";
 import { getUser } from "../../../services/authServices";
 // import useRedirectLoggedOutUsers from "../../customHooks/useRedirectLoggedOutUsers";
@@ -19,12 +18,10 @@ function Profile() {
     setIsLoading(true);
     async function getUserData() {
       const data = await getUser();
-      console.log(data);
 
       setProfile(data);
       setIsLoading(false);
       await dispatch(SET_USER(data));
-      await dispatch(SET_FIRSTNAME(data?.firstname));
     }
     getUserData();
   }, [dispatch]);

@@ -107,8 +107,11 @@ const SliderContainer = styled.div`
 
 function BlackFridaySales() {
   const dispatch = useDispatch();
-  const { scrollRef, pages, activePageIndex, next, prev, goTo } =
-    useSnapCarousel();
+  // const { scrollRef, pages, activePageIndex, next, prev, goTo } =
+  //   useSnapCarousel();
+
+  const { scrollRef, next, prev } = useSnapCarousel();
+
   const [filteredProduct, setFilteredProduct] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [inchesType, setInchesType] = useState("select");
@@ -130,7 +133,7 @@ function BlackFridaySales() {
       setIsLoading(false);
     }
     return filteredCollection;
-  }, [products]);
+  }, [products, filteredProduct]);
   return (
     <Container>
       <InnerWrapper>
@@ -259,6 +262,7 @@ function BlackFridaySales() {
                                     addToCart({
                                       id: item._id,
                                       quantity: 1,
+                                      item: item,
                                       stretchedLength: inchesType,
                                     })
                                   );

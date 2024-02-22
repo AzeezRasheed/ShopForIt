@@ -1,15 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-// import useRedirectLoggedOutUsers from "../../customHooks/useRedirectLoggedOutUsers";
-// import { selectUser } from "../../redux/auth/authSlice";
-// import { updateUser } from "../../services/authService";
-import { useUserData } from "../../../redux/auth/authSlice";
 import Spinner from "../../../components/Loader/Spinner";
+import { useUserData } from "../../../redux/auth/authSlice";
 import ChangePassword from "../../../components/Admin/changePassword/changePassword";
 
 function EditProfile() {
-  // useRedirectLoggedOutUsers("/login");
   const navigate = useNavigate();
   const user = useUserData();
   const [isLoading, setIsLoading] = useState(false);
@@ -25,9 +20,6 @@ function EditProfile() {
   const initialState = {
     firstname: user?.firstname,
     email: user?.email,
-    // phone: user?.phone,
-    // bio: user?.bio,
-    // photo: user?.photo,
   };
 
   const [profile, setProfile] = useState(initialState);
@@ -69,24 +61,10 @@ function EditProfile() {
         const imgData = await response.json();
         imageURL = imgData.url?.toString();
 
-        console.log(imgData);
-        console.log(imgData.url?.toString());
-
-        // Save Profile
-        const formData = {
-          firstname: profile.firstname,
-          phone: profile.phone,
-          // bio: profile.bio,
-          // photo: profileImage ? imageURL : profile.photo,
-        };
-
-        // const data = await updateUser(formData);
-        // console.log(data);
         navigate("/profile");
         setIsLoading(false);
       }
     } catch (error) {
-      console.log(error);
       setIsLoading(false);
     }
   };

@@ -1,51 +1,46 @@
 import React from "react";
 import { BsFacebook, BsInstagram, BsTwitter, BsYoutube } from "react-icons/bs";
-import LOGO from "../assets/SHOP FOR IT.png";
-import styled from "styled-components";
+import Logo_White from "../assets/SHOP FOR IT.png";
+import Logo_Black from "../assets/SHOP FOR IT BLACK.png";
 import tw from "twin.macro";
 import FooterLinks from "./FooterLinks";
-import { useLocation } from "react-router-dom";
-const LOGOWRAPPER = styled.a`
-  ${tw`
-flex items-center cursor-pointer
-`}
-`;
+import { Link, useLocation } from "react-router-dom";
 
-const SocialMediaLink = styled.a`
-  ${tw`
- hover:text-slate-200 
-`}
-`;
 function Footer() {
   const location = useLocation();
   const pathname = location.pathname;
+
   return (
     <footer
-      className="p-10 sm:px-2 sm:pt-14  "
       style={{
         backgroundColor: pathname === "/" ? "#041706" : "#FFFFFF",
+        ...styles.container,
       }}
     >
       <div className="flex flex-col gap-6 items-center justify-center m-auto">
-        <div className="flex  md:flex-col-reverse items-center m-auto justify-center lg:justify-between md:items-start  gap-8 lg:gap-10 md:p-8 lg:flex-row  flex-col   ">
+        <div className="flex w-full  md:flex-col-reverse items-start m-auto justify-center lg:justify-between md:items-start  gap-8 lg:gap-20 md:p-8 lg:flex-row  flex-col   ">
           <div className="flex flex-col gap-5 items-start w-full max-w-[248px] ">
-            <LOGOWRAPPER href="/">
+            <Link style={styles.logoLink} to="/">
               <img
-                src={LOGO}
+                src={pathname === "/" ? Logo_White : Logo_Black}
                 alt="shop for it"
-                className="w-[36px] h-[36px] "
+                className="w-[50px] h-[48px] "
               />
-              <span className="font-Montserrat font-medium text-2xl text-white cursor-pointer">
+              <span
+                className={`font-Montserrat font-medium text-2xl text-[${
+                  pathname === "/" ? "#FFFFFF" : "#222222"
+                }] cursor-pointer`}
+              >
                 shop for it
               </span>
-            </LOGOWRAPPER>
+            </Link>
 
             <h2
               className={`font-bold text-[16px] leading-[20px] text-[${
                 pathname === "/" ? "#FFFFFF" : "#222222"
               }] font-Montserrat`}
             >
-              51 Joy’s close, Ago Palace Way Okota, Lagos.
+              Gods own plaza No 4 ibeh road okota isolo Lagos
             </h2>
             <div className="flex flex-col items-start">
               <h3
@@ -77,43 +72,47 @@ function Footer() {
 
         <div className="flex flex-wrap  text-start justify-between w-full items-start md:items-center md:text-center pl-6 ">
           <div className="flex space-x-6 sm:justify-center mb-4 md:mb-0">
-            <SocialMediaLink
+            <a
               href="/"
               style={{
                 color: pathname === "/" ? "#FFFFFF" : "#C0C0C0",
+                ...styles.socialMediaLink,
               }}
             >
               <BsTwitter />
               <span className="sr-only">Twitter page</span>
-            </SocialMediaLink>
+            </a>
 
-            <SocialMediaLink
+            <a
               href="/"
               style={{
                 color: pathname === "/" ? "#FFFFFF" : "#C0C0C0",
+                ...styles.socialMediaLink,
               }}
             >
               <BsInstagram />
               <span className="sr-only">Instagram page</span>
-            </SocialMediaLink>
-            <SocialMediaLink
+            </a>
+            <a
               href="/"
               style={{
                 color: pathname === "/" ? "#FFFFFF" : "#C0C0C0",
+                ...styles.socialMediaLink,
               }}
             >
               <BsFacebook />
               <span className="sr-only">Facebook page</span>
-            </SocialMediaLink>
-            <SocialMediaLink
+            </a>
+            <a
               href="/"
               style={{
                 color: pathname === "/" ? "#FFFFFF" : "#C0C0C0",
+                ...styles.socialMediaLink,
               }}
             >
               <BsYoutube />
               <span className="sr-only">Youtube account</span>
-            </SocialMediaLink>
+            </a>
           </div>
           <span
             className=" text-[20px] leading-[20px]font-normal font-Montserrat "
@@ -131,3 +130,9 @@ function Footer() {
 }
 
 export default Footer;
+
+const styles = {
+  logoLink: tw`flex items-center cursor-pointer`,
+  socialMediaLink: tw` hover:text-slate-200 `,
+  container: tw`p-10 sm:px-2 sm:pt-14  `,
+};

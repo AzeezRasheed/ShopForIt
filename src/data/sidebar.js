@@ -1,4 +1,4 @@
-import { FaTh, FaRegChartBar, FaCommentAlt } from "react-icons/fa";
+import { FaTh, FaRegChartBar } from "react-icons/fa";
 import { BiImageAdd } from "react-icons/bi";
 
 export const sidebarmenu = [

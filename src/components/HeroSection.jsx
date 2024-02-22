@@ -1,38 +1,17 @@
 import React from "react";
-import styled from "styled-components";
 import tw from "twin.macro";
-//For Carousel, The library is react-slick
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import FirstImage from "../assets/Frame 483.png";
-import SecondImage from "../assets/SecondHeroCarousel.png";
-
-const Container = styled.section`
-  ${tw`
-  w-full px-0 mx-0 
-`}
-`;
-
-const FLEXITEMS = styled.div`
-  ${tw`
-lg:flex  w-full h-full px-4 py-6 items-center justify-center m-auto gap-6
-`}
-`;
-
-const TITLE = styled.h1`
-  ${tw`
-text-[#000000] capitalize leading-[130%] text-[48px] font-bold tracking-[-0.01em] font-Montserrat mb-1
-`}
-`;
-
-const BUTTON = styled.button`
-  ${tw`
-flex items-center m-auto px-10 py-4 rounded-lg bg-[#033514] text-white text-center text-[15.9px] leading-[24px] font-Poppins
-`}
-`;
+import Typography from "./Typography/Typography";
+import Button from "./Button/Button";
+import HEATFREEHAIR from "../assets/HEATFREEHAIR-FOR-KOILS.png";
+import { useMediaQuery } from "react-responsive";
+import { useNavigate } from "react-router-dom";
 
 function HeroSection() {
+  const isTabletOrMobile = useMediaQuery({ query: "(max-width: 768px)" });
+  const navigate = useNavigate();
   //The settings for the carousel
   const settings = {
     dots: true,
@@ -48,74 +27,95 @@ function HeroSection() {
   };
 
   //The images are stored in an array
-  const slides = [
-    {
-      url: FirstImage,
-    },
-    {
-      url: SecondImage,
-    },
-  ];
+  // const slides = [
+  //   {
+  //     url: FirstImage,
+  //   },
+  //   {
+  //     url: SecondImage,
+  //   },
+  // ];
   return (
-    <Container
-      style={{ background: "linear-gradient(0deg, #F7F7F7, #F7F7F7)" }}
-    >
+    <div style={styles.container}>
       <Slider {...settings}>
-        <div className="  m-auto relative">
+        <div className="  m-auto relative z-10 md:px-20">
           <div
-            // style={{ backgroundImage: `url(${slides[0].url})` }}
-            className=" bg-white relative overflow-hidden bg-no-repeat images object-contain bg-cover  mx-auto  py-12 lg:pt-0 md:py-20  lg:flex lg:h-screen lg:items-center"
+            style={{
+              ...styles.innerContainer,
+              background: isTabletOrMobile ? `url(${HEATFREEHAIR})` : "none",
+            }}
           >
-            <div className="mx-auto flex flex-col items-center  text-center z-10 gap-4">
-              <div className="flex flex-col ">
-                <TITLE>
-                  New Hair <span className="text-green-500">Collection</span>
-                </TITLE>
-                <h2 className="font-Montserrat font-medium text-[36px] leading-[44px] text-[#000000] font-">
-                  Summer Sale
-                </h2>
-              </div>
-              <p className="font-Montserrat EXT-[15px] leading-[24px] tracking-[0.2px] font-normal flex w-full max-w-[425px] ">
-                cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                cupidatat non proident, sunt in culpa
-              </p>
+            {/* left */}
+            <div style={styles.left}>
+              <div className="w-full max-w-[650px] mb-[80px] relative ">
+                <Typography
+                  variant="black"
+                  className={
+                    "md:text-[85px] text-[48px] t font-normal capitalize font-Artifika w-full leading-tight  "
+                  }
+                >
+                  Be exquisite. be you,
+                </Typography>
 
-              <div>
-                <BUTTON>Order Now</BUTTON>
+                <div className="absolute md:right-20 md:-bottom-16 lg:-bottom-[80px] lg:right-[44px] -bottom-24 right-0 ">
+                  <Typography
+                    variant="black"
+                    className={
+                      "text-[90px] text-[#079627] font-normal font-Sacramento w-full leading-[130%]  "
+                    }
+                  >
+                    naturally.
+                  </Typography>
+                </div>
+              </div>
+
+              <div className="flex flex-col gap-4 items-start">
+                <Typography
+                  variant="black"
+                  size="heading6"
+                  className={"capitalize"}
+                >
+                  premium “shopfor.it” product designed exclusively for you.
+                </Typography>
+                <Button
+                  ripple={true}
+                  onClick={() => {
+                    navigate("/products");
+                  }}
+                  className="bg-[#033514] text-white py-[14px] px-[21px] gap-[10px] inline-flex "
+                >
+                  SHOP NOW
+                </Button>
               </div>
             </div>
-          </div>
-        </div>
 
-        {/* second */}
-        <div className="  m-auto relative">
-          <div
-            // style={{ backgroundImage: `url(${slides[0].url})` }}
-            className=" bg-white relative overflow-hidden bg-no-repeat images object-contain bg-cover  mx-auto  py-12 lg:py-0 md:py-20 lg:flex lg:h-screen lg:items-center"
-          >
-            <div className="mx-auto flex flex-col items-center  text-center z-10 gap-4">
-              <div className="flex flex-col ">
-                <TITLE>
-                  New Hair <span className="text-green-500">Collection</span>
-                </TITLE>
-                <h2 className="font-Montserrat font-medium text-[36px] leading-[44px] text-[#000000] font-">
-                  Summer Sale
-                </h2>
+            {/* right */}
+            {!isTabletOrMobile && (
+              <div style={styles.right}>
+                <div className="w-full max-w-[585px] h-full bg-white">
+                  <img
+                    src={HEATFREEHAIR}
+                    className="w-full h-full bg-transparent"
+                    alt="HEATFREEHAIR-FOR-COIL"
+                  />
+                </div>
               </div>
-              <p className="font-Montserrat EXT-[15px] leading-[24px] tracking-[0.2px] font-normal flex w-full max-w-[425px] ">
-                cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                cupidatat non proident, sunt in culpa
-              </p>
-
-              <div>
-                <BUTTON>Order Now</BUTTON>
-              </div>
-            </div>
+            )}
           </div>
         </div>
       </Slider>
-    </Container>
+    </div>
   );
 }
 
 export default HeroSection;
+
+const styles = {
+  container: tw`
+  w-full px-0 mx-0 bg-white z-10
+  `,
+  innerContainer: tw`
+  bg-white relative overflow-hidden bg-no-repeat w-full px-4  object-cover bg-cover mx-auto py-12 lg:pt-0 md:py-20 flex flex-row lg:flex-col gap-10 lg:h-screen items-center justify-center lg:justify-between`,
+  left: tw`px-0 mx-0 w-full items-start  `,
+  right: tw`px-0 mx-0 w-full items-center flex bg-white`,
+};

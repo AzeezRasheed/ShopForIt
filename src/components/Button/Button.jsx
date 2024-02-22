@@ -7,7 +7,7 @@ const Button = (props) => {
     <button
       {...allProps}
       className={`border-0 outline-0  ${props.className}`}
-      style={{ background: "unset" }}
+      // style={{ background: "unset" }}
     >
       {props.text || props.children}
     </button>

@@ -12,8 +12,8 @@ const SeasonsSales = styled.div`
 function SeasonSales() {
   return (
     <SeasonsSales>
-      <EasterSales />
-      <BlackFridaySales />
+      {/* <EasterSales />
+      <BlackFridaySales /> */}
     </SeasonsSales>
   );
 }

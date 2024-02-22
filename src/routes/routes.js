@@ -12,6 +12,8 @@ import EditProduct from "../pages/admin/editProduct/EditProduct";
 import Profile from "../pages/admin/profile/Profile";
 import EditProfile from "../pages/admin/editProfile/EditProfile";
 import AddProduct from "../pages/admin/addProduct/AddProduct";
+import ContactUs from "../pages/Contact/ContactUs";
+import Success from "../pages/SuccessPayent/Success";
 
 let routes = [
   {
@@ -21,6 +23,14 @@ let routes = [
         path: "/",
         index: true,
         element: <Home />,
+      },
+      {
+        path: "/contact-us",
+        element: <ContactUs />,
+      },
+      {
+        path: "/payment/success",
+        element: <Success />,
       },
       productsRoute,
       checkoutRoutes,

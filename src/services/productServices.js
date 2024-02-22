@@ -1,6 +1,6 @@
 import axios from "axios";
 export const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
-
+console.log(BACKEND_URL);
 const createProduct = async (formData) => {
   const response = await axios.post(
     `${BACKEND_URL}/api/v1/products/`,
@@ -10,6 +10,7 @@ const createProduct = async (formData) => {
 };
 
 const getProducts = async () => {
+  // const location = useLocation()
   const response = await axios.get(`${BACKEND_URL}/api/v1/products/`);
   return response.data;
 };

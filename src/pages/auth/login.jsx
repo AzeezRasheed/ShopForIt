@@ -1,17 +1,13 @@
 import React, { useState } from "react";
 import { RiLoginBoxLine } from "react-icons/ri";
 import { useDispatch } from "react-redux";
-import { toast } from "react-toastify";
-// import { loginUser, validateEmail } from "../../services/authService";
-// import { SET_LOGIN, SET_NAME } from "../../redux/auth/authSlice";
 import { Formik, useFormik } from "formik";
 import { authLoginSchema } from "../../helper/schema/schema";
-import { SET_FIRSTNAME, SET_LOGIN, SET_USER } from "../../redux/auth/authSlice";
+import { SET_USER } from "../../redux/auth/authSlice";
 import { useNavigate } from "react-router";
 import Spinner from "../../components/Loader/Spinner";
 import { LOGIN_USER } from "../../services/authServices";
 import { Link } from "react-router-dom";
-import axios from "axios";
 
 const initialValues = {
   email: "",
@@ -29,18 +25,7 @@ function Login() {
     try {
       const data = await LOGIN_USER(values);
       await dispatch(SET_USER(data));
-
-      await dispatch(SET_FIRSTNAME(data?.firstname));
-      await dispatch(SET_LOGIN(true));
-
-      // Store the bearer token in local storage
-      localStorage.setItem("token", data?.token);
-
-      // Set the default Authorization header for Axios requests
-      axios.defaults.headers.common["Authorization"] = `Bearer ${data?.token}`;
-
       navigate("/");
-      setIsLoading(false);
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);

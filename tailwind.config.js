@@ -41,6 +41,10 @@ module.exports = {
       Poppins: ["Poppins", "sans-serif"],
       Manrope: ["Manrope", "sans-serif"],
       Roboto: ["Roboto", "sans-serif"],
+      Artifika: ["Artifika", "sans-serif"],
+      OpenSans: ["OpenSans", "sans-serif"],
+      Sacramento: ["Sacramento", "sans-serif"],
+      BeauRivage: ["Sacramento", "cursive"],
     },
     fontSize: {
       xs: ["0.75rem", { lineHeight: "1rem" }],
@@ -102,5 +106,5 @@ module.exports = {
     },
     extend: {},
   },
-  plugins: [],
+  plugins: [require("tailwindcss"), require("tailwindcss/nesting")],
 };

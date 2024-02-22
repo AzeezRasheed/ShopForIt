@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Formik, Field, FieldArray, useFormik } from "formik";
-import ReactQuill from "react-quill";
+// import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 
 import {
@@ -42,7 +42,6 @@ function AddProduct() {
   const [imagePreviews, setImagePreviews] = useState([]);
 
   const onSubmit = async (values) => {
-    console.log(values);
     const data = await dispatch(createProduct(values));
     await dispatch(getProducts());
     data && navigate("/admin/dashboard");
@@ -58,7 +57,7 @@ function AddProduct() {
     errors,
     touched,
     values,
-    isValid,
+    // isValid/,
     setValues,
     handleChange,
     handleBlur,

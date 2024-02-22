@@ -1,28 +1,30 @@
 import React, { useEffect, useState } from "react";
-import { BsFacebook, BsInstagram, BsTwitter, BsYoutube } from "react-icons/bs";
-import {
-  AiOutlineHeart,
-  AiOutlineMinus,
-  AiOutlinePlus,
-  AiTwotoneStar,
-} from "react-icons/ai";
-import Button from "../../../components/Button/Button";
-import tw from "twin.macro";
-import styled from "styled-components";
-import Stack from "../../../components/Stack/Stack";
-import Typography from "../../../components/Typography/Typography";
-import { useParams } from "react-router";
-import { getProduct, useGetProduct } from "../../../redux/product/productSlice";
-import { useDispatch } from "react-redux";
 import {
   addToCart,
   decrementQuantity,
   incrementQuantity,
   useGetCart,
 } from "../../../redux/cart/cartSlice";
-import { Circles } from "react-loader-spinner";
-import ProductInfoBottom from "../../../components/ProductInfobottom";
+import tw from "twin.macro";
+import styled from "styled-components";
+import { useParams } from "react-router";
+import ImageZoom from "react-image-zooom";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useMediaQuery } from "react-responsive";
+import CurrencyFormat from "react-currency-format";
+import { InfinitySpin } from "react-loader-spinner";
+import Stack from "../../../components/Stack/Stack";
+import Button from "../../../components/Button/Button";
+import StarRating from "../../../components/StarRating";
+import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
+import Typography from "../../../components/Typography/Typography";
+import ProductInfoBottom from "../../../components/ProductInfobottom";
+import ProductInfoShowPopup from "../../../components/ProductInfoShowPopup";
+import { BsFacebook, BsInstagram, BsTwitter, BsYoutube } from "react-icons/bs";
+import { getProduct, useGetProduct } from "../../../redux/product/productSlice";
+
+
 
 const SocialMediaLink = styled.a`
   ${tw`
@@ -40,62 +42,87 @@ const ProductInfo = () => {
   const singleProduct = useGetProduct();
   const navigate = useNavigate();
   const cart = useGetCart();
+  // const isTabletOrMobile = useMediaQuery({ query: "(max-width: 768px)" });
+  const isMobile = useMediaQuery({ query: "(max-width: 425px)" });
 
-  useEffect(async () => {
-    setIsLoading(true);
-    setProduct([]);
-    await dispatch(getProduct(id));
-    setIsLoading(false);
-  }, [id]);
+  useEffect(() => {
+    // Scroll to the top of the page
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, []);
 
-  useEffect(async () => {
-    await setProduct(singleProduct);
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 2000);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setIsLoading(true);
+        setProduct([]);
+        await dispatch(getProduct(id));
+      } catch (error) {
+        // Handle errors
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [id, dispatch]);
+
+  useEffect(() => {
+    const updateProduct = async () => {
+      try {
+        await setProduct(singleProduct);
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 2000);
+      } catch (error) {
+        // Handle errors
+      }
+    };
+
+    updateProduct();
   }, [singleProduct, id]);
 
   const isItemInCart = cart.some((cartItem) => cartItem.id === product?._id);
 
   const itemInCart = cart.find((cartItem) => cartItem.id === product?._id);
 
+  console.log(product);
   return (
-    <>
+    <div className="w-full">
       {product?.length < 1 || !product || isLoading ? (
         <div className="flex items-center justify-center m-auto py-6">
-          {" "}
-          <Circles color="#041706" height="100" width="100" visible />
+          <InfinitySpin
+            visible={true}
+            width="200"
+            color="#4fa94d"
+            ariaLabel="infinity-spin-loading"
+          />{" "}
         </div>
       ) : (
         <Stack
           direction="column"
-          alignItems="start"
-          justifyContent="start"
+          alignItems="center"
+          justifyContent="center"
           className={"px-4 lg:px-14 py-10"}
         >
-          <Stack
-            alignItems="start"
-            className=" flex-col md:flex-row gap-12 mb-10 "
-          >
+          <ProductInfoShowPopup
+            title={product?.title}
+            inchesType={inchesType}
+            isItemInCart={isItemInCart}
+          />
+          <Stack className=" flex-col items-center lg:items-baseline justify-center lg:justify-between lg:flex-row  mt-0 gap-12 mb-10 ">
             {/* Left Row */}
-            <Stack
-              alignItems="start"
-              direction="column"
-              className={"gap-3 flex-wrap w-full max-w-[315px] "}
-            >
-              <div className="w-[315px] h-[346px] items-center  ">
-                <img
-                  src={product?.images[isActiveImage]?.filePath}
-                  alt="..."
-                  className="w-full h-full"
-                />
-              </div>
-              <Stack
-                alignItems="start"
-                justifyContent="start"
-                direction="row"
-                className={"gap-3 flex-wrap mb-2"}
-              >
+            <div className="flex h-full flex-col items-center justify-center lg:items-start lg:justify-start lg:flex-row-reverse gap-6 w-full">
+              <ImageZoom
+                height="100%"
+                zoom="200"
+                alt={product?.title}
+                width={isMobile ? "100%" : "423px"}
+                src={product?.images[isActiveImage]?.filePath}
+              />
+              <div className={"flex  gap-3 lg:flex-col mb-2"}>
                 {product?.images.map((image, index) => (
                   <div key={image._id}>
                     <Button
@@ -104,7 +131,7 @@ const ProductInfo = () => {
                         setActiveImage(index);
                       }}
                     >
-                      <div className="w-[51px] h-[51px] items-center  ">
+                      <div className="w-[76px] h-full items-center  ">
                         <img
                           src={image?.filePath}
                           alt="..."
@@ -114,33 +141,8 @@ const ProductInfo = () => {
                     </Button>
                   </div>
                 ))}
-              </Stack>
-              <div className="w-full max-w-[313px] h-0 border border-solid border-[#D9D9D9] "></div>
-              <div className="flex flex-col text-start items-start gap-2 ">
-                <Typography variant="black" size="heading6">
-                  SHARE THIS PRODUCT
-                </Typography>
-
-                <div className="flex space-x-6 sm:justify-center mb-4 md:mb-0">
-                  <SocialMediaLink href="/">
-                    <BsInstagram size={20} />
-                    <span className="sr-only">Instagram page</span>
-                  </SocialMediaLink>
-                  <SocialMediaLink href="/">
-                    <BsTwitter size={20} />
-                    <span className="sr-only">Twitter page</span>
-                  </SocialMediaLink>
-                  <SocialMediaLink href="/">
-                    <BsFacebook size={20} />
-                    <span className="sr-only">Facebook page</span>
-                  </SocialMediaLink>
-                  <SocialMediaLink href="/">
-                    <BsYoutube size={20} />
-                    <span className="sr-only">Youtube account</span>
-                  </SocialMediaLink>
-                </div>
               </div>
-            </Stack>
+            </div>
 
             {/* Right Row */}
             <Stack
@@ -149,87 +151,72 @@ const ProductInfo = () => {
               alignItems="start"
               className={"gap-4"}
             >
-              <Typography variant="black" size="heading3">
-                {product?.title}
-              </Typography>
-
-              <div className="flex flex-wrap gap-3 items-center mb-2">
-                <AiTwotoneStar size={10} />
-                <Typography size="heading6" className=" text-[#F75E54] ">
-                  {product?.ratings || product?.ratings !== null
-                    ? product?.ratings?.length
-                    : 0}{" "}
-                  {}
-                  Reviews
-                </Typography>
-              </div>
-              <div className="flex flex-col p-1 gap-2 border-y border-solid border-y-[#D9D9D9] w-full max-w-[730px] text-start items-start ">
-                <Typography variant="black" size="heading3">
-                  # {product?.newPrice}
-                </Typography>
-                <span
-                  style={{ textDecoration: "line-through" }}
-                  className=" text-[#CFCFCF] text-center mb-1 text-[14px] leading-[16px] font-light font-Roboto   "
+              <div className="flex flex-col items-start gap-[2px] ">
+                <Typography
+                  variant="black"
+                  className={"text-[42px]  font-Poppins font-[500] "}
                 >
-                  # {product.oldPrice}
-                  <span className="p-1 ml-2 text-[#F7A054] bg-[#FFECDB]  ">
-                    -49%
-                  </span>
-                </span>
-              </div>
-
-              <div className="flex flex-wrap gap-2 items-center text-center">
-                <Typography variant="black" size="bodyLarge">
-                  Stretched Length:
+                  {product?.title}
                 </Typography>
-                <Typography variant="black" size="heading5">
-                  {inchesType} Inches
-                </Typography>
-              </div>
 
-              <Stack
-                direction="row"
-                alignItems="start"
-                justifyContent="start"
-                className={"flex items-start  flex-wrap gap-2"}
-              >
-                {product?.categories &&
-                  product?.categories.map((p, index) => (
-                    <div key={index._id}>
-                      <Button
-                        ripple={true}
-                        onClick={() => {
-                          setInchesType(p);
-                          setIsStretchedLength(true);
-                        }}
-                      >
-                        <div
+                <CurrencyFormat
+                  value={product?.newPrice}
+                  displayType={"text"}
+                  thousandSeparator={true}
+                  prefix={"#"}
+                  renderText={(value) => (
+                    <Typography
+                      variant="black"
+                      className={"font-Poppins text-[24px] font-[500]  "}
+                    >
+                      {value}
+                    </Typography>
+                  )}
+                />
+              </div>
+              <StarRating rating={product?.ratings} />
+              <div className="flex flex-col p-1 gap-2 w-full max-w-[730px] text-start items-start ">
+                <Stack
+                  direction="row"
+                  alignItems="start"
+                  justifyContent="start"
+                  className={"flex items-start  flex-wrap gap-2"}
+                >
+                  {product?.categories &&
+                    product?.categories.map((p, index) => (
+                      <div key={index}>
+                        <Button
+                          ripple={true}
+                          onClick={() => {
+                            setInchesType(p);
+                            setIsStretchedLength(true);
+                          }}
                           style={{
                             border:
                               inchesType === p
-                                ? "1px solid #000000"
+                                ? "none"
                                 : "0.75px solid #787878",
-                            padding: "4px 14px",
+                            backgroundColor:
+                              inchesType === p ? "#D2E9D7" : "#fff",
+                            padding: "10px 14px",
                             alignItems: "center",
                             justifyContent: "center",
                             borderRadius: "5px",
                           }}
                         >
-                          <Typography variant="black" size="heading6">
-                            {p} Inches
-                          </Typography>
-                        </div>
-                      </Button>
-                    </div>
-                  ))}
-              </Stack>
+                          <div>Stretched Length: {p} Inches</div>
+                        </Button>
+                      </div>
+                    ))}
+                </Stack>
+              </div>
 
-              <Typography variant="black" size="smallerText">
+              {/* <Typography variant="black" size="smallerText">
                 - Shipping fee as it is charged based on the courier company
                 handling your order.
-              </Typography>
+              </Typography> */}
 
-              <div className="flex flex-wrap gap-2 items-center">
+              {/* <div className="flex flex-wrap gap-2 items-center">
                 <Typography variant="black" size="lightText">
                   # {product?.newPrice}
                 </Typography>
@@ -239,45 +226,50 @@ const ProductInfo = () => {
                 >
                   # {product?.oldPrice}
                 </span>
-              </div>
+              </div> */}
 
-              <div className="flex flex-wrap gap-2 items-center ">
+              <div className="flex  w-full flex-wrap gap-2 items-center ">
                 {/*  */}
-                {!isItemInCart ? (
-                  !isStretchedLength ? (
-                    <p>please select stretched length </p>
-                  ) : (
-                    <Button
-                      ripple={true}
-                      onClick={() => {
-                        dispatch(
-                          addToCart({
-                            id: product?._id,
-                            quantity: 1,
-                            stretchedLength: inchesType,
-                          })
-                        );
-                      }}
-                    >
-                      <div
-                        style={{
-                          border: "1px solid #C0C0C0",
-                          padding: "12px 14px",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          borderRadius: "5px",
-                          backgroundColor: "#033514",
+                {isStretchedLength ? (
+                  <>
+                    {!isItemInCart ? (
+                      <Button
+                        ripple={true}
+                        onClick={() => {
+                          dispatch(
+                            addToCart({
+                              id: product?._id,
+                              quantity: 1,
+                              item: product,
+                              stretchedLength: inchesType,
+                            })
+                          );
                         }}
                       >
-                        <Typography variant="white" size="heading6">
-                          Add to cart
-                        </Typography>
-                      </div>
-                    </Button>
-                  )
+                        <div
+                          style={{
+                            border: "1px solid #000",
+                            padding: "16px 30px",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            borderRadius: "15px",
+                            background: "transparent",
+                          }}
+                        >
+                          <Typography variant="black" size="heading6">
+                            Add to cart
+                          </Typography>
+                        </div>
+                      </Button>
+                    ) : (
+                      <p className="notification  text-black  text-[14px] text-center leading-[16px] font-light font-Roboto ">
+                        Item added to cart!
+                      </p>
+                    )}
+                  </>
                 ) : (
                   <p className="notification  text-black  text-[14px] text-center leading-[16px] font-light font-Roboto ">
-                    Item added to cart!
+                    Select Stretched Length!
                   </p>
                 )}
 
@@ -291,15 +283,15 @@ const ProductInfo = () => {
                   >
                     <div
                       style={{
-                        border: "1px solid #C0C0C0",
-                        padding: "12px 14px",
+                        border: "1px solid #000",
+                        padding: "16px 30px",
                         alignItems: "center",
                         justifyContent: "center",
-                        borderRadius: "5px",
-                        backgroundColor: "#262626",
+                        borderRadius: "15px",
+                        background: "transparent",
                       }}
                     >
-                      <Typography variant="white" size="heading6">
+                      <Typography variant="black" size="heading6">
                         Buy Now
                       </Typography>
                     </div>
@@ -343,12 +335,131 @@ const ProductInfo = () => {
                 )}
 
                 {/*  */}
-                <AiOutlineHeart size={20} color="#000000" />
+                {/* <AiOutlineHeart size={20} color="#000000" /> */}
               </div>
 
-              <Typography variant="black" size="smallerText">
-                SKU: {product?._id}
-              </Typography>
+              <div className="flex flex-col w-full gap-4 py-10 border-t border-t-[#D9D9D9] items-start mt-4">
+                <div className="w-full flex gap-6 items-start">
+                  <div className="flex justify-between gap-4 w-[100px] ">
+                    <Typography
+                      className={
+                        "text-[16px] text-[#9F9F9F] font-[400] font-Poppins  "
+                      }
+                    >
+                      SKU
+                    </Typography>
+                    <Typography
+                      className={
+                        "text-[16px] text-[#9F9F9F] font-[400] font-Poppins  "
+                      }
+                    >
+                      :
+                    </Typography>
+                  </div>
+                  <div>
+                    <Typography
+                      className={
+                        "text-[16px] text-[#9F9F9F] font-[400] font-Poppins  "
+                      }
+                    >
+                      {product?._id}
+                    </Typography>
+                  </div>
+                </div>
+
+                <div className="w-full flex gap-6 items-start">
+                  <div className="flex justify-between gap-4 w-[100px] ">
+                    <Typography
+                      className={
+                        "text-[16px] text-[#9F9F9F] font-[400] font-Poppins  "
+                      }
+                    >
+                      Category
+                    </Typography>
+                    <Typography
+                      className={
+                        "text-[16px] text-[#9F9F9F] font-[400] font-Poppins  "
+                      }
+                    >
+                      :
+                    </Typography>
+                  </div>
+                  <div>
+                    <Typography
+                      className={
+                        "text-[16px] text-[#9F9F9F] font-[400] font-Poppins  "
+                      }
+                    >
+                      {product?.collections}
+                    </Typography>
+                  </div>
+                </div>
+
+                <div className="w-full flex gap-6 items-start">
+                  <div className="flex justify-between gap-4 w-[100px] ">
+                    <Typography
+                      className={
+                        "text-[16px] text-[#9F9F9F] font-[400] font-Poppins  "
+                      }
+                    >
+                      Tags
+                    </Typography>
+                    <Typography
+                      className={
+                        "text-[16px] text-[#9F9F9F] font-[400] font-Poppins  "
+                      }
+                    >
+                      :
+                    </Typography>
+                  </div>
+                  <div>
+                    <Typography
+                      className={
+                        "text-[16px] text-[#9F9F9F] font-[400] font-Poppins  "
+                      }
+                    >
+                      {product?.collections}
+                    </Typography>
+                  </div>
+                </div>
+
+                <div className="w-full flex gap-6 items-start">
+                  <div className="flex justify-between gap-4 w-[100px] ">
+                    <Typography
+                      className={
+                        "text-[16px] text-[#9F9F9F] font-[400] font-Poppins  "
+                      }
+                    >
+                      Share
+                    </Typography>
+                    <Typography
+                      className={
+                        "text-[16px] text-[#9F9F9F] font-[400] font-Poppins  "
+                      }
+                    >
+                      :
+                    </Typography>
+                  </div>
+                  <div className="flex flex-row gap-3 items-center">
+                    <SocialMediaLink href="/">
+                      <BsInstagram size={20} />
+                      <span className="sr-only">Instagram page</span>
+                    </SocialMediaLink>
+                    <SocialMediaLink href="/">
+                      <BsTwitter size={20} />
+                      <span className="sr-only">Twitter page</span>
+                    </SocialMediaLink>
+                    <SocialMediaLink href="/">
+                      <BsFacebook size={20} />
+                      <span className="sr-only">Facebook page</span>
+                    </SocialMediaLink>
+                    <SocialMediaLink href="/">
+                      <BsYoutube size={20} />
+                      <span className="sr-only">Youtube account</span>
+                    </SocialMediaLink>
+                  </div>
+                </div>
+              </div>
             </Stack>
           </Stack>
 
@@ -356,7 +467,7 @@ const ProductInfo = () => {
           <ProductInfoBottom product={product} />
         </Stack>
       )}
-    </>
+    </div>
   );
 };
 

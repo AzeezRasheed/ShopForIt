@@ -4,10 +4,9 @@ import { useDispatch } from "react-redux";
 import { Formik, useFormik } from "formik";
 import { signupLoginSchema } from "../../helper/schema/schema";
 import { REGISTER_USER } from "../../services/authServices";
-import { SET_FIRSTNAME, SET_LOGIN, SET_USER } from "../../redux/auth/authSlice";
+import { SET_USER } from "../../redux/auth/authSlice";
 import { Link, useNavigate } from "react-router-dom";
 import Spinner from "../../components/Loader/Spinner";
-import axios from "axios";
 
 const initialValues = {
   firstname: "",
@@ -26,7 +25,6 @@ function Register() {
   const onSubmit = async (values) => {
     setIsLoading(true);
     // Submit form logic here
-    console.log(values);
     const { firstname, lastname, email, phone, password } = values;
 
     try {
@@ -38,14 +36,6 @@ function Register() {
         password,
       });
       await dispatch(SET_USER(data));
-      await dispatch(SET_FIRSTNAME(data.firstname));
-      await dispatch(SET_LOGIN(true));
-
-      // Store the bearer token in local storage
-      localStorage.setItem("token", data.token);
-
-      // Set the default Authorization header for Axios requests
-      axios.defaults.headers.common["Authorization"] = `Bearer ${data.token}`;
       navigate("/");
       setIsLoading(false);
       setIsLoading(false);

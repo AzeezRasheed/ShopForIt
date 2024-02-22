@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut as DoughnutChart } from "react-chartjs-2";
 import ChartDataLabels from "chartjs-plugin-datalabels";

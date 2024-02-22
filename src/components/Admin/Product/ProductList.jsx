@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from "react";
-import { FaEdit, FaTrashAlt } from "react-icons/fa";
-import { AiOutlineEye } from "react-icons/ai";
-import { useDispatch, useSelector } from "react-redux";
-import ReactPaginate from "react-paginate";
-import { confirmAlert } from "react-confirm-alert";
-import "react-confirm-alert/src/react-confirm-alert.css";
-// import { deleteProduct, getProducts } from "../../redux/product/productSlice";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import ReactPaginate from "react-paginate";
+import { AiOutlineEye } from "react-icons/ai";
+import React, { useEffect, useState } from "react";
+import { confirmAlert } from "react-confirm-alert";
+import { FaEdit, FaTrashAlt } from "react-icons/fa";
+import "react-confirm-alert/src/react-confirm-alert.css";
+import { GoArrowLeft, GoArrowRight } from "react-icons/go";
+// import Spinner from "../../components/spinnerModal/Spinner";
 // import { selectFilteredProducts } from "../../redux/product/filterSlice";
 // import { selectInputBoolean } from "../../redux/inputBoolean/inputBooleanSlice";
-// import Spinner from "../../components/spinnerModal/Spinner";
-import { GoArrowLeft, GoArrowRight } from "react-icons/go";
+// import { deleteProduct, getProducts } from "../../redux/product/productSlice";
 import {
   FILTER_PRODUCTS,
   useSelectFilteredProducts,
@@ -20,7 +20,6 @@ import {
   deleteProduct,
   getProducts,
 } from "../../../redux/product/productSlice";
-import Spinner from "../../Loader/Spinner";
 const ProductList = ({ products, isLoading }) => {
   const [search, setSearch] = useState("");
   const filteredProducts = useSelectFilteredProducts();
@@ -119,7 +118,6 @@ const ProductList = ({ products, isLoading }) => {
           />
         </div>
       </div>
-
 
       <div className="overflow-x-auto md:w-[500px] lg:w-full ">
         {isLoading && products.length === 0 ? (

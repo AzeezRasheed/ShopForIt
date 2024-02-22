@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import Spinner from "../../../components/Loader/Spinner";
 import {
@@ -68,7 +68,6 @@ function EditProduct() {
       formData.append("image", productImage);
     }
 
-    console.log(...formData);
 
     await dispatch(updateProduct({ formData, id }));
     await dispatch(getProducts());

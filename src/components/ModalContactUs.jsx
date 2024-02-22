@@ -95,10 +95,8 @@ function ModalContactUs(props) {
       )
       .then(
         (result) => {
-          console.log(result.text);
         },
         (error) => {
-          console.log(error.text);
         }
       );
     toast.success("Message Sent Successfully");

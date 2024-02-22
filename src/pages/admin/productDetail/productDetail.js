@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import DOMPurify from "dompurify";
+// import DOMPurify from "dompurify";
 // import useRedirectLoggedOutUsers from "../../customHooks/useRedirectLoggedOutUsers";
 // import { getProduct } from "../../redux/product/productSlice";
 import { BsArrowRight } from "react-icons/bs";
@@ -9,7 +9,7 @@ import Spinner from "../../../components/Loader/Spinner";
 import { getProduct } from "../../../redux/product/productSlice";
 import styled from "styled-components";
 import tw from "twin.macro";
-import Typography from "../../../components/Typography/Typography";
+// import Typography from "../../../components/Typography/Typography";
 
 const Table = styled.table`
   ${tw`
@@ -61,7 +61,7 @@ function ProductDetail() {
     if (isError) {
       console.log(message);
     }
-  }, [isError, message, dispatch]);
+  }, [isError, message, dispatch, id]);
 
   const stockStatus = (quantity) => {
     if (quantity > 0) {

@@ -6,7 +6,7 @@ import tw from "twin.macro";
 import { useGetProducts } from "../redux/product/productSlice";
 import { useDispatch } from "react-redux";
 import { addToCart, useGetCart } from "../redux/cart/cartSlice";
-import { Circles } from "react-loader-spinner";
+import { Circles, InfinitySpin } from "react-loader-spinner";
 import { useNavigate } from "react-router";
 import Typography from "./Typography/Typography";
 import Stack from "./Stack/Stack";
@@ -69,6 +69,7 @@ const Image = styled.img`
 
 `}
 `;
+
 const Title = styled.h2`
   ${tw`
   font-Roboto font-normal text-[20px] leading-[23px] text-white
@@ -113,8 +114,7 @@ function EasterSales() {
   const [isStretchedLength, setIsStretchedLength] = useState(false);
   const navigate = useNavigate();
 
-  const { scrollRef, pages, activePageIndex, next, prev, goTo } =
-    useSnapCarousel();
+  const { scrollRef, next, prev } = useSnapCarousel();
 
   const products = useGetProducts();
   const cart = useGetCart();
@@ -131,7 +131,7 @@ function EasterSales() {
       setIsLoading(false);
     }
     return filteredCollection;
-  }, [products]);
+  }, [products, filteredProduct]);
 
   return (
     <Container>
@@ -165,7 +165,18 @@ function EasterSales() {
           >
             {isLoading ? (
               <div className="items-center text-center m-auto flex justify-center ">
-                <Circles color="#FFFFFF" height="100" width="100" visible />
+                <InfinitySpin
+                  visible={true}
+                  width="200"
+                  color="#4fa94d"
+                  ariaLabel="infinity-spin-loading"
+                />
+                <InfinitySpin
+                  visible={true}
+                  width="200"
+                  color="#4fa94d"
+                  ariaLabel="infinity-spin-loading"
+                />{" "}
               </div>
             ) : (
               <>
@@ -261,6 +272,7 @@ function EasterSales() {
                                     addToCart({
                                       id: item._id,
                                       quantity: 1,
+                                      item: item,
                                       stretchedLength: inchesType,
                                     })
                                   );

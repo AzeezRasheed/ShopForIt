@@ -1,59 +1,54 @@
 import React from "react";
-import styled from "styled-components";
 import tw from "twin.macro";
 import { FaShippingFast } from "react-icons/fa";
+import { GrTrophy } from "react-icons/gr";
+import { MdOutlineSupportAgent } from "react-icons/md";
+
 const data = [
   {
-    icon: <FaShippingFast size={26} />,
-    title: "Quick Shipping Delivery ",
-    description: "Delivery of orders ",
+    icon: <GrTrophy size={"60px"} />,
+    title: "High Quality",
+    description: "crafted from top materials",
+  },
+
+  {
+    icon: <FaShippingFast size={"60px"} />,
+    title: "Free Shipping",
+    description: "Order over ₦150,000",
   },
   {
-    icon: <FaShippingFast size={26} />,
-    title: "24x7 Support",
-    description: "Contact us 24 hours a day, 7 days a week",
-  },
-  {
-    icon: <FaShippingFast size={26} />,
-    title: "Payment Secure",
-    description: "Secured Payment Gateway",
-  },
-  {
-    icon: <FaShippingFast size={26} />,
-    title: "30 Days Return",
-    description: "Terms & Condition Apply",
+    icon: <MdOutlineSupportAgent size={"60px"} />,
+    title: "24 / 7 Support",
+    description: "Dedicated support",
   },
 ];
 
-const Container = styled.div`
-  ${tw`
-flex flex-wrap items-center gap-4 justify-center m-auto w-full mb-10
-`}
-`;
-
-const Box = styled.div`
-  ${tw`
-flex w-[284px] h-[178px] border border-solid border-[#5C6273] 
-`}
-`;
 function InfoBox() {
   return (
-    <Container>
-      {data.map((data, i) => (
-        <Box key={i}>
-          <div className="flex flex-col items-center m-auto gap-1">
-            <span className="text-white">{data.icon}</span>
-            <h2 className="font-Roboto font-normal ext-[20px] leading-[23px] text-white  ">
-              {data.title}
-            </h2>
-            <p className="font-normal font-Montserrat text-[11px] leading-[16px] tracking-[0.2px] text-white w-full max-w-[174px] text-center  ">
-              {data.description}
-            </p>
+    <div style={styles.container}>
+      <div style={styles.innerContainer}>
+        {data.map((data, i) => (
+          <div key={i} style={styles.box}>
+            <span style={styles.icon}>{data.icon}</span>
+            <div style={styles.rightBox} key={i}>
+              <h2 style={styles.title}>{data.title}</h2>
+              <p style={styles.description}>{data.description}</p>
+            </div>
           </div>
-        </Box>
-      ))}
-    </Container>
+        ))}
+      </div>
+    </div>
   );
 }
 
 export default InfoBox;
+
+const styles = {
+  icon: tw`text-[#242424]`,
+  box: tw`flex flex-row items-center gap-5`,
+  rightBox: tw` flex flex-col items-start text-start gap-[2px] `,
+  title: tw`font-Poppins font-[600] text-[25px] text-[#242424] `,
+  description: tw`font-[500] font-Poppins text-[20px] text-[#898989]  `,
+  container: tw`flex items-start justify-start  m-auto w-full `,
+  innerContainer: tw`flex flex-wrap justify-center gap-10  m-auto py-20`,
+};

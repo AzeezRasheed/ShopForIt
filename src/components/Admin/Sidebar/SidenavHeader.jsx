@@ -1,12 +1,12 @@
-import { useNavigate } from "react-router-dom";
 import "./SideNav.css";
 import LogoWhite from "../../../assets/SHOP FOR IT.png";
+// import { useNavigate } from "react-router-dom";
 
 const SidenavHeader = () => {
-  const navigate = useNavigate();
-  const goHome = () => {
-    navigate("/");
-  };
+  // const navigate = useNavigate();
+  // const goHome = () => {
+  //   navigate("/");
+  // };
 
   return (
     <div

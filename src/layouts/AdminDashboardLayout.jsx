@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { SET_INPUT_BOOLEAN } from "../redux/inputBoolean/inputBooleanSlice";
 import SidenavHeader from "../components/Admin/Sidebar/SidenavHeader";
 import SidenavMenu from "../components/Admin/Sidebar/SideNavMenu";
@@ -9,8 +9,8 @@ import LogoWhite from "../assets/SHOP FOR IT.png";
 import { useUserData } from "../redux/auth/authSlice";
 
 const AdminDashboardLayout = () => {
-  const location = useLocation();
-  const pathname = location.pathname;
+  // const location = useLocation();
+  // const pathname = location.pathname;
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [inputBoolean, setInputBoolean] = useState(false);
@@ -21,11 +21,11 @@ const AdminDashboardLayout = () => {
     if (!isAdmin) {
       navigate("/");
     }
-  }, [isAdmin]);
+  }, [isAdmin, navigate, dispatch]);
 
   useEffect(() => {
     dispatch(SET_INPUT_BOOLEAN(inputBoolean));
-  }, [inputBoolean]);
+  }, [inputBoolean, dispatch]);
   return (
     <div className="relative min-h-screen md:flex " data-dev-hint="container">
       <input
