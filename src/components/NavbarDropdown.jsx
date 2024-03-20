@@ -40,10 +40,11 @@ const menuItemsData = [
 ];
 
 const MenuItem = ({ title, url }) => (
-  <Link to={url}>
-    <a className="border-b flex border-b-[#D9D9D9] hover:text-[#fff] hover:bg-gray-400 bg-[#fff] py-2 px-4 whitespace-nowrap">
-      {title}
-    </a>
+  <Link
+    to={url}
+    className="border-b flex border-b-[#D9D9D9] hover:text-[#fff] hover:bg-gray-400 bg-[#fff] py-2 px-4 whitespace-nowrap"
+  >
+    {title}
   </Link>
 );
 

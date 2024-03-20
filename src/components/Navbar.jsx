@@ -13,7 +13,7 @@ import { useGetCart } from "../redux/cart/cartSlice";
 import { HiOutlineShoppingCart } from "react-icons/hi";
 import { useGetProducts } from "../redux/product/productSlice";
 import { FILTER_PRODUCTS } from "../redux/product/filterSlice";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useIsUserLoggedIn, useUserData } from "../redux/auth/authSlice";
 import { BsFacebook, BsInstagram, BsTwitter, BsYoutube } from "react-icons/bs";
 import { FaHamburger } from "react-icons/fa";
@@ -37,7 +37,6 @@ const styles = {
 
 function Navbar() {
   const cart = useGetCart();
-  const location = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const userData = useUserData();
@@ -192,7 +191,6 @@ function Navbar() {
               </li>
               <Dropdown />
               <li style={{ ...styles.list, color: "#5B5959" }}>
-                <a href="/"></a>
                 <Link to="/">About Us</Link>
               </li>
               <li style={{ ...styles.list, color: "#5B5959" }}>

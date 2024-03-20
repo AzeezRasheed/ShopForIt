@@ -33,8 +33,6 @@ function ContactUsForm() {
     values,
     handleChange,
     handleSubmit,
-    setValues,
-    setFieldValue,
     touched,
     errors,
     handleBlur,
@@ -44,9 +42,6 @@ function ContactUsForm() {
     onSubmit,
   });
 
-  const sendEmail = async (e) => {
-    e.preventDefault();
-  };
 
   return (
     <form onSubmit={handleSubmit} className="w-full max-w-[480px]">

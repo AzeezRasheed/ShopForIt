@@ -1,6 +1,6 @@
-import { Button } from "evergreen-ui";
 import React from "react";
 import CurrencyFormat from "react-currency-format";
+import Button from "./Button/Button";
 
 const MultiRangeSlider = ({
   minPrice,

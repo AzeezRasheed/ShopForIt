@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import tw from "twin.macro";
 import { slide as Menu } from "react-burger-menu";
 import styled, { css } from "styled-components";
@@ -69,10 +69,6 @@ const ListContainer = styled.ul`
 
 const NavItems = styled.a`
   ${styles.navItems}
-`;
-
-const ButtonSm = styled.a`
-  ${styles.buttonSm}
 `;
 
 const LogoContainer = styled.div``;

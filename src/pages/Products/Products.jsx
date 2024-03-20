@@ -102,11 +102,11 @@ const Products = () => {
     navigate(`/products?category=${category}`);
   };
 
-  const resetCategory = () => {
-    setProductCategoriesOpen(false);
-    setSelectedCategory(null);
-    navigate("/products");
-  };
+  // const resetCategory = () => {
+  //   setProductCategoriesOpen(false);
+  //   setSelectedCategory(null);
+  //   navigate("/products");
+  // };
 
   const handleMinChange = (value) => {
     setMinPrice(value);

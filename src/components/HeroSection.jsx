@@ -10,7 +10,7 @@ import { useMediaQuery } from "react-responsive";
 import { useNavigate } from "react-router-dom";
 
 function HeroSection() {
-  const isTabletOrMobile = useMediaQuery({ query: "(max-width: 768px)" });
+  const isTabletOrMobile = useMediaQuery({ query: "(maxWidth: 768px)" });
   const navigate = useNavigate();
   //The settings for the carousel
   const settings = {

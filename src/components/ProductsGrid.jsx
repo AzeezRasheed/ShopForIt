@@ -1,20 +1,7 @@
 import React from "react";
 import CurrencyFormat from "react-currency-format";
 import { useNavigate } from "react-router";
-import styled from "styled-components";
-import tw from "twin.macro";
 
-const PriceText = styled.span`
-  ${tw`
-    text-[#9F9F9F]
-    text-center
-    text-[13px]
-    leading-[16px]
-    font-[600]
-    font-OpenSans
-    mb-1.5
-  `}
-`;
 
 const ProductsGrid = ({ key, data }) => {
   const navigate = useNavigate();
