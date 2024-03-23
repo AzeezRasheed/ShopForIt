@@ -34,8 +34,8 @@ const Products = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const [selectedCategory, setSelectedCategory] = useState(null);
-  const [isFilterByPriceOpen, setFilterByPriceOpen] = useState(false);
-  const [isProductCategoriesOpen, setProductCategoriesOpen] = useState(false);
+  const [isFilterByPriceOpen, setFilterByPriceOpen] = useState(true);
+  const [isProductCategoriesOpen, setProductCategoriesOpen] = useState(true);
 
   const searchParams = new URLSearchParams(location.search);
   const category = searchParams.get("category") || null;

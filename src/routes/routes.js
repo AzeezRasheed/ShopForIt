@@ -7,6 +7,7 @@ import productsRoute from "./productsRoutes";
 import checkoutRoutes from "./checkoutRoutes";
 import ContactUs from "../pages/Contact/ContactUs";
 import Success from "../pages/SuccessPayent/Success";
+import Carts from "../pages/Cart/Cart";
 
 let routes = [
   {
@@ -24,6 +25,10 @@ let routes = [
       {
         path: "/payment/success",
         element: <Success />,
+      },
+      {
+        path: "/cart",
+        element: <Carts />,
       },
       productsRoute,
       checkoutRoutes,
