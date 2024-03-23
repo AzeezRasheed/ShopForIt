@@ -5,21 +5,21 @@ import Typography from "./Typography/Typography";
 const ConfirmDelete = ({ isModalOpen, closeModal, handleDelete }) => {
   const modalRef = useRef(null);
 
-  const handleClickOutside = (event) => {
-    if (modalRef.current && !modalRef.current.contains(event.target)) {
-      closeModal();
-    }
-  };
+//   const handleClickOutside = (event) => {
+//     if (modalRef.current && !modalRef.current.contains(event.target)) {
+//       closeModal();
+//     }
+//   };
 
-  useEffect(() => {
-    if (isModalOpen) {
-      document.addEventListener("click", handleClickOutside);
-    }
+//   useEffect(() => {
+//     if (isModalOpen) {
+//       document.addEventListener("click", handleClickOutside);
+//     }
 
-    return () => {
-      document.removeEventListener("click", handleClickOutside);
-    };
-  }, [isModalOpen, closeModal, handleClickOutside]);
+//     return () => {
+//       document.removeEventListener("click", handleClickOutside);
+//     };
+//   }, [isModalOpen, closeModal, handleClickOutside]);
 
   return (
     <div className=" fixed left-0 bg-opacity-50 top-0 z-[1055] h-full w-full overflow-y-auto overflow-x-hidden outline-none">
