@@ -33,7 +33,7 @@ const CartsTable = () => {
     name?.length > num ? `${name.substring(0, num)}...` : name;
 
   return (
-    <div className="overflow-x-auto">
+    <div className="overflow-x-auto ">
       {cart?.length < 1 ? (
         <div className="items-center py-3 mx-auto flex justify-center m-auto">
           <InfinitySpin
@@ -44,7 +44,7 @@ const CartsTable = () => {
           />
         </div>
       ) : (
-        <table className="text-sm text-left text-black font-bold">
+        <table className="text-sm w-full text-left text-black font-bold">
           <thead className="text-[1rem] text-black font-bold">
             <tr className="items-center justify-center text-center">
               <th scope="col" className="py-3 px-6">
