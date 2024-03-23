@@ -140,6 +140,7 @@ const CartsTable = () => {
                           dispatch(decrementQuantity(product?._id))
                         }
                       >
+                        
                         <AiOutlineMinus size={12} color="#000000" />
                       </Button>
                       <div
