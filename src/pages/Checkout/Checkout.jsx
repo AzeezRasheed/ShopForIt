@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Stack from "../../components/Stack/Stack";
 import Typography from "../../components/Typography/Typography";
 import Button from "../../components/Button/Button";
@@ -20,6 +20,7 @@ import CurrencyFormat from "react-currency-format";
 import { calculateSubtotal } from "../../components/CalculateSubtotal";
 import Breadcrumb from "../../components/BreadCrumb";
 import { useNavigate } from "react-router-dom";
+import Context from "../../context/ContextProvider";
 
 const Checkout = () => {
   const dispatch = useDispatch();
@@ -29,9 +30,10 @@ const Checkout = () => {
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
   const [products, setProducts] = useState([]);
-  const [shippingLocation, setshippingLocation] = useState("lekki");
   const [shippingAmount, setShippingAmount] = useState(2000);
   const [isPlaceOrder, setIsPlaceOrder] = useState(false);
+
+  const { shippingLocation, setShippingLocation } = useContext(Context);
 
   const initialValues = {
     firstname: "",
@@ -200,7 +202,6 @@ const Checkout = () => {
     //   userInfo: initialValues,
     // };
 
-    
     // Make a POST request to your backend endpoint
     // axios.post("/api/payment/success", dataToSend)
     //   .then((response) => {
@@ -716,7 +717,7 @@ const Checkout = () => {
                               shippingLocation === "lekki" ? true : false
                             }
                             onChange={() => {
-                              setshippingLocation("lekki");
+                              setShippingLocation("lekki");
                             }}
                             className="form-checkbox h-5 w-5 text-indigo-600 transition duration-150 ease-in-out"
                           />
@@ -744,7 +745,7 @@ const Checkout = () => {
                               shippingLocation === "mainland" ? true : false
                             }
                             onChange={() => {
-                              setshippingLocation("mainland");
+                              setShippingLocation("mainland");
                             }}
                             className="form-checkbox h-5 w-5 text-indigo-600 transition duration-150 ease-in-out"
                           />

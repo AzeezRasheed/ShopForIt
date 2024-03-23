@@ -191,7 +191,13 @@ const DrawerRight = () => {
       )}
 
       {cartTotal > 0 && (
-        <Button ripple className="w-[343px]" onClick={() => {navigate("/checkout")}}>
+        <Button
+          ripple
+          className="w-[343px]"
+          onClick={() => {
+            navigate("/checkout");
+          }}
+        >
           <div className="px-[20px] py-4 w-full bg-[#033514] rounded-[5px] items-center text-center">
             <Typography variant="white" size="buttons">
               Proceed to Checkout
@@ -201,12 +207,20 @@ const DrawerRight = () => {
       )}
 
       {cartTotal > 0 && (
-        <Typography
-          className="font-medium text-[11px] leading-[130%] text-center text-[#000000] font-Montserrat"
-          size="small"
+        <Button
+          ripple
+          className="w-[343px]"
+          onClick={() => {
+            navigate("/cart");
+          }}
         >
-          View and Edit Cart
-        </Typography>
+          <Typography
+            className="font-medium text-[11px] leading-[130%] text-center text-[#000000] font-Montserrat"
+            size="small"
+          >
+            View and Edit Cart
+          </Typography>
+        </Button>
       )}
     </Stack>
   );

@@ -10,7 +10,7 @@ import { useMediaQuery } from "react-responsive";
 import { useNavigate } from "react-router-dom";
 
 function HeroSection() {
-  const isTabletOrMobile = useMediaQuery({ query: "(maxWidth: 768px)" });
+  const isTabletOrMobile = useMediaQuery({ maxWidth: "768px" });
   const navigate = useNavigate();
   //The settings for the carousel
   const settings = {
@@ -42,7 +42,6 @@ function HeroSection() {
           <div
             style={{
               ...styles.innerContainer,
-              background: isTabletOrMobile ? `url(${HEATFREEHAIR})` : "none",
             }}
           >
             {/* left */}
