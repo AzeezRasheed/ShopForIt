@@ -1,0 +1,7 @@
+version: '3.7'
+
+services:
+  shop-for-it:
+    image: dahumbletechboy/shop-for-it:v1
+    ports:
+      - "3000:3000"

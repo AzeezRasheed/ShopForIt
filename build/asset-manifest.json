@@ -1,9 +1,9 @@
 {
   "files": {
-    "main.css": "/static/css/main.b05d1c39.css",
-    "main.js": "/static/js/main.fd63b7f4.js",
-    "static/media/HEATFREEHAIR-FOR-KOILS.png": "/static/media/HEATFREEHAIR-FOR-KOILS.1bd54c4e44045734ab55.png",
-    "static/media/HEATFREEHAIR-FOR-WIGS.png": "/static/media/HEATFREEHAIR-FOR-WIGS.b0e56fe4edfbe99b4dd8.png",
+    "main.css": "/static/css/main.52fb8cd4.css",
+    "main.js": "/static/js/main.dfdd4c49.js",
+    "static/media/HEATFREEHAIR-FOR-KOILS.png": "/static/media/HEATFREEHAIR-FOR-KOILS.19baea3fc85013ad9358.png",
+    "static/media/HEATFREEHAIR-FOR-WIGS.png": "/static/media/HEATFREEHAIR-FOR-WIGS.9b98742d7e545b6b9be9.png",
     "static/media/HEATFREEHAIR-FOR-EXTENSIONS.png": "/static/media/HEATFREEHAIR-FOR-EXTENSIONS.16ad6ba32f2ba68f7fef.png",
     "static/media/slick.svg": "/static/media/slick.2630a3e3eab21c607e21.svg",
     "static/media/slick.eot": "/static/media/slick.a4e97f5a2a64f0ab1323.eot",
@@ -11,11 +11,11 @@
     "static/media/slick.woff": "/static/media/slick.295183786cd8a1389865.woff",
     "index.html": "/index.html",
     "static/media/X.svg": "/static/media/X.fa6d9a5852bf7ea43f7e558301eb9519.svg",
-    "main.b05d1c39.css.map": "/static/css/main.b05d1c39.css.map",
-    "main.fd63b7f4.js.map": "/static/js/main.fd63b7f4.js.map"
+    "main.52fb8cd4.css.map": "/static/css/main.52fb8cd4.css.map",
+    "main.dfdd4c49.js.map": "/static/js/main.dfdd4c49.js.map"
   },
   "entrypoints": [
-    "static/css/main.b05d1c39.css",
-    "static/js/main.fd63b7f4.js"
+    "static/css/main.52fb8cd4.css",
+    "static/js/main.dfdd4c49.js"
   ]
 }
