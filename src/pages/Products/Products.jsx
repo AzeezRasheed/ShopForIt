@@ -123,6 +123,9 @@ const Products = () => {
     }
     const url = `/products/?${queryParams}`;
     navigate(url);
+
+
+    // "/products/minPrice=200&maxPrice=400/category=Men"
   };
 
   const handleSortChange = (selectedSortOption) => {
